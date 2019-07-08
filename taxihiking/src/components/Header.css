@@ -1,0 +1,22 @@
+.search{
+    display: flex;
+}
+.icon{
+    display: flex;
+}
+.user{
+    
+    display: flex;
+}
+.user p{
+    margin: 0 20px;
+}
+#iconName{
+    font-size: 40px;
+    font-weight: bold;
+    justify-items: center;
+    margin:0;
+}
+.wrapper{
+    display: flex;
+}

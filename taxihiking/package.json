@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@lourd/react-google-api": "^0.2.1",
+    "@react-google-maps/api": "^1.3.0",
+    "jquery": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-geocode": "^0.1.2",
+    "react-google-api-component": "^0.2.3",
     "react-scripts": "3.0.1"
   },
   "scripts": {
