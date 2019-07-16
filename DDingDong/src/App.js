@@ -1,9 +1,12 @@
 import React,{Component} from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route,Link } from 'react-router-dom'
 import Category from'./components/Category'
 import {render} from 'react-dom';
 import List from './components/List'
+import About from './About';
+import Home from './Home';
+import Repos from './Repos';
 
 class App extends Component {
   constructor(){
@@ -27,14 +30,17 @@ class App extends Component {
         break;
         default:
           Child=Category;
-    }
-    return (
-      <div className="App">
+        }
+        return (
+          <div className="App">
         
         <div className="body">
           
           {/* <Menu menuName="OUTBACK" src={Outback}></Menu> */}
           <Child name={"chicken"}/>
+          
+            {this.props.children}
+          
         </div>
         <footer>
 
@@ -43,6 +49,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;
