@@ -1,0 +1,16 @@
+table,td{
+    border : 1px solid black;
+    text-align: -webkit-center;
+    border-collapse: collapse;
+}
+table{
+    width:500px;
+    height: 250px;
+}
+td{
+    width : 25%;
+}
+#list{
+    text-align: -webkit-center;
+    margin-top: 50px;
+}

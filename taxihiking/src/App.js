@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{Component} from 'react';
 import './App.css';
-import Header from './components/Header'
-import Menu from './components/Menu'
-import Outback from './asset/images/outback.png'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Category from'./components/Category'
+import {render} from 'react-dom';
+import List from './components/List'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Header></Header>
+class App extends Component {
+  constructor(){
+    super(...arguments);
+    this.state={
+      route:window.location.hash.substr(1)
+    };
+  }
+  componentDidMount(){
+    window.addEventListener('hashchange',()=>{
+      this.setState({
+        route:window.location.hash.substr(1)
+      });
+    });
+  }
+  render(){
+    var Child;
+    switch(this.state.route){
+        case '/list':
+        Child=List;
+        break;
+        default:
+          Child=Category;
+    }
+    return (
+      <div className="App">
         
-      </header>
-      <div className="body">
-        <Menu menuName="OUTBACK" src={Outback}></Menu>
+        <div className="body">
+          
+          {/* <Menu menuName="OUTBACK" src={Outback}></Menu> */}
+          <Child name={"chicken"}/>
+        </div>
+        <footer>
 
+        </footer>
       </div>
-      <footer>
-
-      </footer>
-    </div>
-  );
+    );
+  }
 }
+
 
 export default App;
