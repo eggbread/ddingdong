@@ -7,6 +7,9 @@ import './Header.css'
 import ReactTouchEvents from "react-touch-events";
 
 class Header extends Component {
+    componentDidMount(){
+        this.findLocation();
+    }
     findLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
