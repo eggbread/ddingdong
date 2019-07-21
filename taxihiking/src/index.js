@@ -7,7 +7,7 @@ import Header from './components/Header'
 
 import Category from './components/Category'
 import List from './components/List'
-ReactDOM.render(<Header/>, document.getElementById('header'));
+// ReactDOM.render(<Header/>, document.getElementById('header'));
 // ReactDOM.render( (
 //     <Router>
 //         <Route path="/" component={Category}>

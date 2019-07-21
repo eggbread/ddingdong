@@ -1,16 +1,18 @@
 
 .search{
     display: flex;
+    flex:2.2;
 }
 .icon{
     display: flex;
+    flex:1;
+    margin-left: 20px;
+    color : white;
 }
-.user{
-    
+a{
+    text-decoration: none;
+    color: #000;
     display: flex;
-}
-.user p{
-    margin: 0 20px;
 }
 #iconName{
     font-size: 40px;
@@ -21,5 +23,8 @@
 .wrapper{
     display: flex;
     text-align: center;
-    justify-content: center;
+    height: 100px;
+    padding-top: 40px;
+    background-color: #FFF56E;
+    background-image: url("../asset/images/chicken.png");
 }

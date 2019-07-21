@@ -24,7 +24,7 @@ class Category extends Component{
                     </thead>
                     <tbody>
                         <tr>
-                            <td><Link to="/list/koreanfood"><img src={require("../asset/images/koreanfood.jpg")} alt="" height="150px" width="150px"></img></Link></td>
+                            <td><Link to="/list/koreanfood/"><img src={require("../asset/images/koreanfood.jpg")} alt="" height="150px" width="150px"></img></Link></td>
                             <td><Link to="/list/westfood"><img src={require("../asset/images/westfood.jpg")} alt="" height="150px" width="150px"></img></Link></td>
                             <td><Link to="/list/japanfood"><img src={require("../asset/images/japanfood.jpg")} alt="" height="150px" width="150px"></img></Link></td>
                             <td><Link to="/list/chinafood"><img src={require("../asset/images/chinafood.png")} alt="" height="150px" width="150px"></img></Link></td>
@@ -37,7 +37,10 @@ class Category extends Component{
                         </tr>
                     </tbody>
                 </table>
-
+                <p>
+                <button className="login100-form-btn"><Link to="/signin">관리자 로그인</Link></button>
+                <button className="login100-form-btn"><Link to="/signup">관리자 회원가입</Link></button>
+                </p>
             </div>
         );
     }
