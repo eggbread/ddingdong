@@ -67,6 +67,7 @@ class Signup extends Component{
         success:function(result){
           if(result.Status==="Success"){
             alert("회원가입이 되었습니다.")
+            document.location.href="/";
           }else{
             alert("회원가입 실패");
           }

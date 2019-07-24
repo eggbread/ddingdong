@@ -29,9 +29,12 @@ class Signin extends Component{
             if(data.people[i][1]===name){
               if(data.people[i][2]===parseInt(age)){
                 found=true;
+              }else{
+                alert("비밀번호 틀렸쪙");
               }
             }
           }
+          alert("로그인 했쪙");
           document.location.href="/";
         }
       })
@@ -40,33 +43,27 @@ class Signin extends Component{
         return(
             <div>
             
-              <span class="login100-form-logo">
-                <i class="zmdi zmdi-landscape"></i>
+              <span className="login100-form-logo">
+                <i className="zmdi zmdi-landscape"></i>
               </span>
 
-              <span class="login100-form-title p-b-34 p-t-27">
+              <span className="login100-form-title p-b-34 p-t-27">
                 Log in
               </span>
 
-              <div class="wrap-input100 validate-input" data-validate = "Enter username">
-                <input class="input100" id="name" type="text" name="username" placeholder="Username"></input>
-                <span class="focus-input100" data-placeholder="&#xf207;"></span>
+              <div className="wrap-input100 validate-input" data-validate = "Enter username">
+                <input className="input100" id="name" type="text" name="username" placeholder="Username"></input>
+                <span className="focus-input100" data-placeholder="&#xf207;"></span>
               </div>
 
-              <div class="wrap-input100 validate-input" data-validate="Enter password">
-                <input class="input100" id="age" type="password" name="pass" placeholder="Password"></input>
-                <span class="focus-input100" data-placeholder="&#xf191;"></span>
+              <div className="wrap-input100 validate-input" data-validate="Enter password">
+                <input className="input100" id="age" type="password" name="pass" placeholder="Password"></input>
+                <span className="focus-input100" data-placeholder="&#xf191;"></span>
               </div>
 
-              <div class="contact100-form-checkbox">
-                <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me"></input>
-                <label class="label-checkbox100" for="ckb1">
-                  Remember me
-                </label>
-              </div>
 
-              <div class="container-login100-form-btn">
-                <button class="login100-form-btn" onClick={this.receiveUserData}>
+              <div className="container-login100-form-btn">
+                <button className="login100-form-btn" onClick={this.receiveUserData}>
                   Login
                 </button>
               </div>
