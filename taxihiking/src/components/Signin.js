@@ -1,43 +1,26 @@
 import React,{Component} from 'react';
-import $ from 'jquery';
+import axios from 'axios';
 
 class Signin extends Component{
     receiveUserData(){
-      var url = "http://ec2-54-180-102-176.ap-northeast-2.compute.amazonaws.com:5000/signup";
-      // fetch(url,{
-      //   type:'POST',
-      //   headers:{
-      //     "Content-Type": "application/json",
-      //     "cache-control": "no-cache",
-      //     "Postman-Token": "713172b7-07b2-4a7b-bde4-e7c2b349ff85"
-      //   }
-      // }).then(res=>{
-      //   return res.json();
-      // }).then(json =>{
-      //   console.log(json);
-      // })
-      $.ajax({
-        url:url,
-        type:"GET",
-        success:function(result){
-          var data = JSON.parse(result);
-          var name = document.getElementById("name").value;
-          var age =document.getElementById("age").value;
-          var found=false;
-         
-          for(var i=0;!found;i++){
-            if(data.people[i][1]===name){
-              if(data.people[i][2]===parseInt(age)){
-                found=true;
-              }else{
-                alert("비밀번호 틀렸쪙");
-              }
-            }
+      var id = document.getElementById('id').value;
+      var password = document.getElementById('password').value;
+      axios.post('http://localhost:4000/signin',{
+        id:id,
+        password:password
+      }).then(res=>{
+        if(res.status===200){
+          var data = res.data;
+          console.log(data);
+          if(data==="success"){
+            console.log("HI")
+            document.location.href="/";
+          }else{
+            alert("비밀번호가 틀렸습니다");
           }
-          alert("로그인 했쪙");
-          document.location.href="/";
         }
       })
+      
     }
     render(){
         return(
@@ -51,14 +34,11 @@ class Signin extends Component{
                 Log in
               </span>
 
-              <div className="wrap-input100 validate-input" data-validate = "Enter username">
-                <input className="input100" id="name" type="text" name="username" placeholder="Username"></input>
-                <span className="focus-input100" data-placeholder="&#xf207;"></span>
+              <div>
+                <input className="name" id="id" type="text" name="username" placeholder="ID를 입력해주세요"></input>
               </div>
-
-              <div className="wrap-input100 validate-input" data-validate="Enter password">
-                <input className="input100" id="age" type="password" name="pass" placeholder="Password"></input>
-                <span className="focus-input100" data-placeholder="&#xf191;"></span>
+              <div>
+                <input className="name" id="password" type="password" name="username" placeholder="비밀번호를 입력해주세요"></input>
               </div>
 
 

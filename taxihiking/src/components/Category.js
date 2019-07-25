@@ -2,18 +2,62 @@ import React , { Component } from 'react';
 import './Category.css'
 import Menu from '../components/Menu';
 import App from '../App';
-import List from './List';
+import axios from 'axios';
 import { BrowserRouter as Router, Route,Link} from 'react-router-dom';
 
 class Category extends Component{
     constructor(props){
         super(props);
         this.state={
-            
+            isLogin:false,
         }
     }
+    componentDidMount(){
+        axios.post('http://localhost:4000/').then(res=>{
+            console.log(res);
+          if(res.data){
+            this.setState({
+                isLogin:true
+            })
+          }else{
+            this.setState({
+                isLogin:false
+            })
+          }
+        })
+      }
+    
+    logout(){
+        axios.post('http://localhost:4000/logout')
+        .then(res=>{
+            if(res.status===200){
+                console.log(res);
+                //document.location.href="/";
+            }
+        })
+    }
     render(){
-        
+        var componentLogin;
+        if(this.state.isLogin){
+            componentLogin=
+                <p>
+
+              <button className="login100-form-btn" onClick={this.logout}>관리자 로그아웃</button>
+              <button className="login100-form-btn"><Link to="/signup">상점 관리</Link></button>
+                </p>
+              
+            
+        }else{
+            componentLogin=
+                <p>
+
+              <button className="login100-form-btn"><Link to="/signin">관리자 로그인</Link></button>
+              <button className="login100-form-btn"><Link to="/signup">관리자 회원가입</Link></button>
+                </p>
+              
+            
+        }
+        console.log(this.state.isLogin);
         return(
             <div id="list">
                 <table>
@@ -37,10 +81,8 @@ class Category extends Component{
                         </tr>
                     </tbody>
                 </table>
-                <p>
-                <button className="login100-form-btn"><Link to="/signin">관리자 로그인</Link></button>
-                <button className="login100-form-btn"><Link to="/signup">관리자 회원가입</Link></button>
-                </p>
+                {componentLogin}
+                
             </div>
         );
     }

@@ -5,7 +5,7 @@ import Pin from "../asset/images/pin.png"
 import $ from "jquery";
 import './Header.css'
 import ReactTouchEvents from "react-touch-events";
-import { throwStatement } from '@babel/types';
+
 
 class Header extends Component {
     constructor(props){
@@ -30,9 +30,9 @@ class Header extends Component {
                     success: function(myJSONResult) {
 
                         if (myJSONResult.status === 'OK') {
-
+                            
                             var tag = "";
-                            tag += myJSONResult.results[3].formatted_address;
+                            tag += myJSONResult.results[2].formatted_address;
                             document.getElementById("searchInput").value = tag;
                             return tag;
                         } else if (myJSONResult.status === 'ZERO_RESULTS') {

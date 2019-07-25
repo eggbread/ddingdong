@@ -1,6 +1,5 @@
 import React, {Component } from "react";
-import { BrowserRouter as Router, Route,Link} from 'react-router-dom';
-const API_MENU = 'http://ddproject-247011.appspot.com/outback';
+import { BrowserRouter as Router,Route, Link} from 'react-router-dom';
 
 class Menu extends Component{
     constructor(props){
@@ -35,14 +34,14 @@ class Menu extends Component{
     }
       
     render(){
-        console.log(this.state.items);
-        var { items,isLoaded } =this.state;
+        console.log(this.props.data);
+        var { isLoaded } =this.state;
         if(!isLoaded){
             return <div>Loading...</div>
         }else{
             return(
                 <div>   
-                <img src={require("../asset/images/"+this.state.contents[0].src)} alt="menu" height="400px"></img>
+                {/* <img src={require("../asset/images/"+this.state.contents[0].src)} alt="menu" height="400px"></img> */}
                 <h1>{this.state.contents[0].title}</h1>
                 <table>
                     <tbody>
@@ -54,8 +53,11 @@ class Menu extends Component{
                    </tr>
                    )}
                    </tbody>
-                    
+
                 </table>
+                <p>This is clickpoint</p>
+                <p>This is blog</p>
+                <p>This is storedata</p>
                 <button><Link to={this.state.contents[0].title+"/order"}>주문 하기</Link></button>
                 {/* <p>{weather.city.name}</p> */}
             </div>

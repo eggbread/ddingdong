@@ -1,41 +1,90 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route,Link} from 'react-router-dom';
-import Header from './Header';
-import $ from 'jquery';
-function a(){
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "http://ec2-54-180-102-176.ap-northeast-2.compute.amazonaws.com:5000/review/hello",
-        "method": "GET",
-        "headers": {
-          "Content-Type": "application/json",
-          "Accept": "*/*",
-          "Cache-Control": "no-cache",
-          "Postman-Token": "0bbfd45e-45e8-4bfb-95bd-f3e9ed7809f5,aa5c5b0c-af40-4a55-b117-5b066d1f9065",
-          "cache-control": "no-cache"
-        },
-        "processData": false,
-        "data": "{\n    \"Email\": null,\n    \"UserName\": null,\n    \"Password\": null\n}"
+
+import axios from 'axios';
+
+
+class List extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      category:props.match.params.category,
+      storeList:[],
+    }
+  }
+  componentDidMount(){
+    // fetch("http://localhost:4000/list")
+    // .then((res)=>res.json())
+    // .then((json)=>this.setState({
+    //   storeList:json
+    // }))
+     
+    // var a;
+    // $.ajax({
+    //   url:"http://localhost:4000/list",
+    //   method:"POST",
+    //   success:function(result){
+    //     console.log(result)
+    //   }
+    // })
+
+    axios.post('http://localhost:4000/list',{
+      category:this.state.category
+    })
+    .then(result => {
+      if(result.statusText==="OK"){
+        this.setState({
+          storeList:result.data,
+        })
+      }else{
+
       }
-      $.ajax(settings).done(function (response) {
-        var data = JSON.parse(response);
-        document.getElementById("img").src=data.item[0].img;
-      });
-}
-const List=({match})=> {
-    console.log(match.params);
-        return(
-            <div>
-                <h1>This is {match.params.category}</h1>
-                <ul>
-                    <li><Link to="/menu/OUTBACK">아웃백 유성점</Link></li>
-                    <button onClick={a}>Hi</button>
-                    <img id="img" src="" alt=""></img>
-                </ul>
-            </div>
-        );
+    }
+      
+    )
+  
+  }
+  render(){
+    var {storeList}=this.state.storeList;
+    // console.log(this.state.storeList);
     
+    return(
+      <div>
+                <h1>This is {this.state.category}</h1>
+                <table>
+                  <thead>
+
+                  </thead>
+                  <tbody>
+
+                  {this.state.storeList.map((item,index)=>
+                    <tr key={item.storename}>
+                      <td>
+                        <img src={require("../asset/images/"+item.userid+"/main.png")} alt="" width="150px" height="80px"/>
+                      </td>
+                      <td>
+                          <Link to={{
+                            pathname:'/menu/'+item.storename,
+                            aboutProps:{
+                              data:item,
+                            }
+                            }} >{item.storename}</Link>
+                      </td>
+                      <td>
+                        {item.tel}
+                      </td>
+                    </tr>
+                    
+                    )}
+                  
+                  </tbody>
+                </table>
+            </div>
+    );
+  }
 }
+
+
+
 
 export default List;

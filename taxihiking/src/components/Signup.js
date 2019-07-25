@@ -1,11 +1,19 @@
 import React,{Component} from 'react';
 import $ from "jquery";
-import { restElement } from '@babel/types';
+import axios from 'axios';
 
 class Signup extends Component{
     sendUserData(){
+      var id = document.getElementById("id").value;
+      var password = document.getElementById("password").value;
       var name = document.getElementById("name").value;
-      var age = document.getElementById("age").value;
+      var storename = document.getElementById("storename").value;
+      var phone = document.getElementById("phone").value;
+      var birth = document.getElementById("birth").value;
+     
+      var data = {id:id, password:password, name:name,storename:storename,phone:phone,birth:birth};
+       var obj = JSON.stringify(data);
+       console.log(JSON.parse(obj));
       // var settings = {
       //   "async": true,
       //   "crossDomain": true,
@@ -48,7 +56,7 @@ class Signup extends Component{
       //   alert(data.item[0].title);
       //     // alert(data[0].title)
       //   });
-      var url = "http://ec2-54-180-102-176.ap-northeast-2.compute.amazonaws.com:5000/user?name="+name+"&age="+String(age);
+      //var url = "http://ec2-54-180-102-176.ap-northeast-2.compute.amazonaws.com:5000/user?name="+name+"&age="+String(age);
       // fetch(url,{
       //   type:'POST',
       //   headers:{
@@ -61,41 +69,61 @@ class Signup extends Component{
       // }).then(json =>{
       //   console.log(json);
       // })
-      $.ajax({
-        url:url,
-        type:"POST",
-        success:function(result){
-          if(result.Status==="Success"){
-            alert("회원가입이 되었습니다.")
-            document.location.href="/";
-          }else{
-            alert("회원가입 실패");
-          }
-        }
+      // $.ajax({
+      //   url:url,
+      //   type:"POST",
+      //   success:function(result){
+      //     if(result.Status==="Success"){
+      //       alert("회원가입이 되었습니다.")
+      //       document.location.href="/";
+      //     }else{
+      //       alert("회원가입 실패");
+      //     }
+      //   }
+      // })
+      axios.post('http://localhost:4000/signup',{
+        id : id,
+        password:password,
+        name:name,
+        storename:storename,
+        phone:phone,
+        birth:birth
       })
-    }
+    .then(result => {
+      if(result.statusText==="OK"){
+        alert("OK");
+      }else{
+
+      }
+    })
+    
+  }
     render(){
         return(
             <div>
-                <span className="login100-form-title p-b-34 p-t-27">
+                <span>
                 Sign Up
               </span>
-              <div id="signupimg">
-                <img id="img" src="" alt=""></img>
+              <div>
+                <input className="name" id="id" type="text" name="username" placeholder="ID를 입력해주세요"></input>
               </div>
-              <div className="wrap-input100 validate-input" data-validate = "Enter username">
-                <input className="name" id="name" type="text" name="username" placeholder="Username"></input>
-                <span className="focus-input100" data-placeholder="&#xf207;"></span>
+              <div>
+                <input className="name" id="password" type="password" name="username" placeholder="비밀번호를 입력해주세요"></input>
               </div>
-
-              <div className="wrap-input100 validate-input" data-validate="Enter age">
-                <input className="input100" id="age" type="number" name="pass" placeholder="Age"></input>
-                <span className="focus-input100" data-placeholder="&#xf191;"></span>
+              <div>
+                <input className="name" id="name" type="text" name="username" placeholder="이름을 입력해주세요"></input>
               </div>
-              {/* <div className="wrap-input100 validate-input" data-validate="Enter phonenumber">
-                <input className="input100" pattern="(010)-\d{3,4}-\d{4}" type="text" name="phone" placeholder="Phonenumber"></input>
-                <span className="focus-input100" data-placeholder="&#xf2b6;"></span>
-              </div> */}
+              <div>
+                <input className="name" id="storename" type="text" name="username" placeholder="가게이름을 입력해주세요"></input>
+              </div>
+        
+              
+              <div>
+                <input className="input100" pattern="(010)-\d{3,4}-\d{4}" type="text" id="phone" placeholder="Phonenumber"></input>
+              </div>
+              <div>
+                <input className="name" id="birth" type="date" name="username"></input>
+              </div>
 
 
 

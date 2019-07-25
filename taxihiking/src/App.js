@@ -9,6 +9,7 @@ import Header from './components/Header';
 import Order from './components/Order';
 import MetaTags from 'react-meta-tags';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
+import axios from 'axios';
 
 class App extends Component {
   constructor(props){
@@ -18,11 +19,7 @@ class App extends Component {
       isLogin:false,
     }
   }
-  parentCallBack = (dataFromChild) => {
-    this.setState({
-      location:dataFromChild,
-    })
-  }
+  
   render(){
         return (
           <div className="App">
@@ -33,7 +30,7 @@ class App extends Component {
             <div className="Head">
            
            
-              <Header callback={this.parentCallBack.bind(this)}></Header>
+              <Header></Header>
             </div>
             <div className="body">
               <Router>
