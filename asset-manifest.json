@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5cb4feff.chunk.css",
+    "main.js": "/static/js/main.69f588dd.chunk.js",
+    "main.js.map": "/static/js/main.69f588dd.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.39613a73.chunk.js": "/static/js/2.39613a73.chunk.js",
+    "static/js/2.39613a73.chunk.js.map": "/static/js/2.39613a73.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.3a8e6a3f427a95114eedecd1ad27d78e.js": "/precache-manifest.3a8e6a3f427a95114eedecd1ad27d78e.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.5cb4feff.chunk.css.map": "/static/css/main.5cb4feff.chunk.css.map",
+    "static/media/boon.jpg": "/static/media/boon.aec347e3.jpg",
+    "static/media/Header.css": "/static/media/chicken.e42cb251.png",
+    "static/media/chinafood.png": "/static/media/chinafood.18c9b7fe.png",
+    "static/media/japanfood.jpg": "/static/media/japanfood.c66556a1.jpg",
+    "static/media/main.png": "/static/media/main.e42cb251.png",
+    "static/media/pigfoot.jpg": "/static/media/pigfoot.36b3f298.jpg",
+    "static/media/pin.png": "/static/media/pin.ad0db1bb.png",
+    "static/media/pizza.jpg": "/static/media/pizza.81048323.jpg",
+    "static/media/search.png": "/static/media/search.6c3274fc.png",
+    "static/media/westfood.jpg": "/static/media/westfood.7bec63f1.jpg"
+  }
+}
