@@ -27,7 +27,14 @@ class List extends Component {
     //     console.log(result)
     //   }
     // })
-
+  //   axios.post('http://localhost:4000/',{
+  //     token:window.sessionStorage.getItem('token')
+  // }).then(res=>{
+  //     console.log(res);
+  //   if(res.data){
+      
+  //   }
+  // })
     axios.post('http://localhost:4000/list',{
       category:this.state.category
     })
@@ -63,12 +70,7 @@ class List extends Component {
                         <img src={require("../asset/images/"+item.userid+"/main.png")} alt="" width="150px" height="80px"/>
                       </td>
                       <td>
-                          <Link to={{
-                            pathname:'/menu/'+item.storename,
-                            aboutProps:{
-                              data:item,
-                            }
-                            }} >{item.storename}</Link>
+                          <Link to={'/menu/'+item.storeID} >{item.storename}</Link>
                       </td>
                       <td>
                         {item.tel}

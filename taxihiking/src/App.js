@@ -10,7 +10,7 @@ import Order from './components/Order';
 import MetaTags from 'react-meta-tags';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import axios from 'axios';
-
+import StoreMange from './components/StoreManage'
 class App extends Component {
   constructor(props){
     super(props);
@@ -36,10 +36,11 @@ class App extends Component {
               <Router>
                 <Route exact path="/" component={Category}/>
                 <Route path="/list/:category" component={List}/>
-                <Route exact path="/menu/:store" component={Menu}/>
+                <Route exact path="/menu/:storeID" component={Menu}/>
                 <Route path="/menu/:store/order" component={Order}/>
                 <Route path="/signin" component={Signin}/>
                 <Route path="/signup" component={Signup}/>
+                <Route path="/storemanage" component={StoreMange}/>
               </Router>
                 {this.state.location}
               

@@ -3,20 +3,22 @@ import axios from 'axios';
 
 class Signin extends Component{
     receiveUserData(){
+      
       var id = document.getElementById('id').value;
       var password = document.getElementById('password').value;
-      axios.post('http://localhost:4000/signin',{
+      axios.post('http://192.168.0.21:4000/signin',{
         id:id,
         password:password
       }).then(res=>{
         if(res.status===200){
           var data = res.data;
           console.log(data);
-          if(data==="success"){
+          window.sessionStorage.setItem('token',data)
+          if(data==="pass"||data==="id"){
             console.log("HI")
-            document.location.href="/";
-          }else{
             alert("비밀번호가 틀렸습니다");
+          }else{
+            document.location.href="/";
           }
         }
       })

@@ -13,11 +13,13 @@ class Category extends Component{
         }
     }
     componentDidMount(){
-        axios.post('http://localhost:4000/').then(res=>{
+        axios.post('http://192.168.0.21:4000/',{
+            token:window.sessionStorage.getItem('token')
+        }).then(res=>{
             console.log(res);
           if(res.data){
             this.setState({
-                isLogin:true
+                isLogin:res.data
             })
           }else{
             this.setState({
@@ -26,24 +28,26 @@ class Category extends Component{
           }
         })
       }
-    
+   
     logout(){
-        axios.post('http://localhost:4000/logout')
-        .then(res=>{
-            if(res.status===200){
-                console.log(res);
-                //document.location.href="/";
-            }
-        })
+        // axios.post('http://localhost:4000/signin')
+        // .then(res=>{
+        //     if(res.status===200){
+        //         console.log(res);
+        //         //document.location.href="/";
+        //     }
+        // })
+        window.sessionStorage.removeItem('token');
+        window.location.reload();
     }
     render(){
         var componentLogin;
         if(this.state.isLogin){
             componentLogin=
                 <p>
-
+                    {this.state.isLogin} 님 안녕하세요
               <button className="login100-form-btn" onClick={this.logout}>관리자 로그아웃</button>
-              <button className="login100-form-btn"><Link to="/signup">상점 관리</Link></button>
+              <button className="login100-form-btn"><Link to="/storemanage" >상점 관리</Link></button>
                 </p>
               
             

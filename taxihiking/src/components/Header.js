@@ -15,10 +15,10 @@ class Header extends Component {
         }
     }
     componentDidMount(){
-        this.setState({
-            location:this.findLocation(),
+        console.log(this.findLocation());
 
-        })
+            
+            
     }
     findLocation = () => {
         if (navigator.geolocation) {
@@ -34,6 +34,8 @@ class Header extends Component {
                             var tag = "";
                             tag += myJSONResult.results[2].formatted_address;
                             document.getElementById("searchInput").value = tag;
+                            //console.log(myJSONResult.results)
+                            
                             return tag;
                         } else if (myJSONResult.status === 'ZERO_RESULTS') {
                             alert("지오코딩이 성공했지만 반환된 결과가 없음을 나타냅니다.\n\n이는 지오코딩이 존재하지 않는 address 또는 원격 지역의 latlng을 전달받는 경우 발생할 수 있습니다.")
@@ -45,16 +47,23 @@ class Header extends Component {
                             alert("일반적으로 쿼리(address 또는 latlng)가 누락되었음을 나타냅니다.");
                         }
                     }
+                }).then(res=>{
+                    console.log(res.results)
+                    this.setState({
+                        location:res.results[2].formatted_address
+                    })
                 });
+                
             });
         } else {
             alert("Geolocation is not supported by this browser.");
         }
     }
-    
+    search(a){
+        alert(a)
+    }
     render() {
-        
-
+        console.log(this.state.location)
             return (
                 <div className = "wrapper" >
         
@@ -70,7 +79,7 @@ class Header extends Component {
                     <img src = { Pin }alt = "mark"width = "50px"height = "50px"onClick = { this.findLocation }onTouchStart = { this.findLocation }/>
                 </ReactTouchEvents> 
                 <input type = "text" style = {{ width: "500px", height: "50px", fontSize: "30px" }} id = "searchInput"></input> 
-                <img src = { Search }alt = "mark"width = "50px"height = "50px" />
+                <img src = { Search }alt = "mark"width = "50px"height = "50px" onClick={()=>this.search(this.state.location)}/>
             </div> 
         </div>
         );
