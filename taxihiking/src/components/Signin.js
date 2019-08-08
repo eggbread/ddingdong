@@ -1,12 +1,51 @@
 import React,{Component} from 'react';
 import axios from 'axios';
+import $ from 'jquery'
+import { BrowserRouter as Router, Route,Link} from 'react-router-dom';
+import {ButtonToolbar,Button} from 'react-bootstrap'
+
 
 class Signin extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      isLogin:false,
+    };
+    this.keyPress = this.keyPress.bind(this);
+  }
+  keyPress(e){
+    if(e.keyCode===13){
+      this.receiveUserData();
+    }
+  }
+  componentDidMount(){
+    axios.post('http://localhost:4000/',{
+            token:window.sessionStorage.getItem('token')
+        }).then(res=>{
+          if(res.data){
+            this.setState({
+                isLogin:res.data
+            })
+            console.log(res.data)
+            window.sessionStorage.setItem('user',res.data)
+          }else{
+            this.setState({
+                isLogin:false
+            })
+          }
+        })
+    $('#id_Input').focus();
+    
+  }
+  logout(){
+    window.sessionStorage.removeItem('token');
+    window.location.reload();
+}
     receiveUserData(){
       
-      var id = document.getElementById('id').value;
-      var password = document.getElementById('password').value;
-      axios.post('http://192.168.0.21:4000/signin',{
+      var id = document.getElementById('id_Input').value;
+      var password = document.getElementById('password_Input').value;
+      axios.post('http://localhost:4000/signin',{
         id:id,
         password:password
       }).then(res=>{
@@ -18,13 +57,35 @@ class Signin extends Component{
             console.log("HI")
             alert("비밀번호가 틀렸습니다");
           }else{
-            document.location.href="/";
+            document.location.href="/storemanage";
           }
         }
       })
       
     }
     render(){
+      var componentLogin;
+            if(this.state.isLogin){
+                componentLogin=
+                    <ButtonToolbar>
+                        {this.state.isLogin} 님 안녕하세요
+                        <Button bsstyle="warning" className="login100-form-btn" onClick={this.logout}>사장님 로그아웃</Button>
+                        <Button bsstyle="warning" className="login100-form-btn"><Link to="/storemanage" >상점 관리</Link></Button>
+                    </ButtonToolbar>  
+            }else{
+                componentLogin=
+                <div>
+                  <span>Log in</span>
+                  <div>
+                    <input className="name" id="id_Input" type="text" name="username" placeholder="ID를 입력해주세요"></input>
+                  </div>
+                  <div>
+                    <input onKeyDown={this.keyPress} className="name" id="password_Input" type="password" name="username" placeholder="비밀번호를 입력해주세요"></input>
+                  </div>
+                  <button className="login100-form-btn" onClick={this.receiveUserData}>Login</button>
+                  <Button bsstyle="warning" className="login100-form-btn"><Link to="/signup">사장님 회원가입</Link></Button>
+                </div>         
+            }
         return(
             <div>
             
@@ -32,22 +93,14 @@ class Signin extends Component{
                 <i className="zmdi zmdi-landscape"></i>
               </span>
 
-              <span className="login100-form-title p-b-34 p-t-27">
-                Log in
-              </span>
-
-              <div>
-                <input className="name" id="id" type="text" name="username" placeholder="ID를 입력해주세요"></input>
-              </div>
-              <div>
-                <input className="name" id="password" type="password" name="username" placeholder="비밀번호를 입력해주세요"></input>
-              </div>
+              
 
 
               <div className="container-login100-form-btn">
-                <button className="login100-form-btn" onClick={this.receiveUserData}>
+                {/* <button className="login100-form-btn" onClick={this.receiveUserData}>
                   Login
-                </button>
+                </button> */}
+                {componentLogin}
               </div>
 
             

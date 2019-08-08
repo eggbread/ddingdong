@@ -2,6 +2,7 @@
 .search{
     display: flex;
     flex:2.2;
+    padding-top: 40px
 }
 .icon{
     display: flex;
@@ -20,14 +21,15 @@ a{
     justify-items: center;
     margin:0;
 }
-.wrapper{
+.header_Wrapper{
     display: flex;
     text-align: center;
     height: 100px;
-    padding-top: 40px;
-    background-color: #FFF56E;
-    background-image: url("../asset/images/chicken.png");
+    padding-bottom: 50px;
+    background-color: #00D7FF;
+    /* background-image: url("../asset/images/chicken.png"); */
     width:100%;
+    border-radius: 10px
 }
 @media(max-width:500px){
     .wrapper{
@@ -35,8 +37,8 @@ a{
         text-align: center;
         height: 100px;
         padding-top: 40px;
-        background-color: #FFF56E;
-        background-image: url("../asset/images/chicken.png");
+        background-color: white;
+        /* background-image: url("../asset/images/chicken.png"); */
         width:fit-content;
     }
 }

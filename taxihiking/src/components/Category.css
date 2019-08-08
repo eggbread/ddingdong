@@ -1,5 +1,5 @@
 table,td{
-    border : 1px solid black;
+    
     text-align: -webkit-center;
     border-collapse: collapse;
 }
@@ -13,4 +13,5 @@ td{
 #list{
     text-align: -webkit-center;
     margin-top: 50px;
+    border-style: none;
 }

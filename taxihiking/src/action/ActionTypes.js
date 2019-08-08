@@ -1,5 +1,0 @@
-export const SET_STOREDATA = "SET_STOREDATA";
-export const GET_STOREDATA = "GET_STOREDATA";
-export const SET_LOCATION = "SET_LOCATION";
-export const GET_LOCATION = "GET_LOCATION";
-

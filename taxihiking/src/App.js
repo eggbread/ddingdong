@@ -7,47 +7,27 @@ import Signin from './components/Signin';
 import Signup from './components/Signup';
 import Header from './components/Header';
 import Order from './components/Order';
-import MetaTags from 'react-meta-tags';
+import Footer from './components/Footer'
 import { BrowserRouter as Router, Route} from 'react-router-dom';
-import axios from 'axios';
 import StoreMange from './components/StoreManage'
 class App extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      location:null,
-      isLogin:false,
-    }
-  }
   
   render(){
         return (
-          <div className="App">
-            
-
-              <meta name="viewport" content="width=device-width, initial-scale=1"/>
-            
-            <div className="Head">
-           
-           
-              <Header></Header>
-            </div>
+          <div className="App">   
             <div className="body">
               <Router>
+                <Route path="/" component={Header}/>
                 <Route exact path="/" component={Category}/>
-                <Route path="/list/:category" component={List}/>
+                <Route exact path="/" component={Footer}/>
+                <Route path="/list/:category/:location" component={List}/>
                 <Route exact path="/menu/:storeID" component={Menu}/>
                 <Route path="/menu/:store/order" component={Order}/>
                 <Route path="/signin" component={Signin}/>
                 <Route path="/signup" component={Signup}/>
                 <Route path="/storemanage" component={StoreMange}/>
-              </Router>
-                {this.state.location}
-              
+              </Router>  
             </div>
-            <footer>
-
-            </footer>
          </div>
       );
     } 

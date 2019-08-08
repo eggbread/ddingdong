@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
-import Icon from "../asset/images/bell.png"
+import Icon from "../asset/images/icon2.png"
 import Search from "../asset/images/search.png"
 import Pin from "../asset/images/pin.png"
 import $ from "jquery";
 import './Header.css'
 import ReactTouchEvents from "react-touch-events";
+import { BrowserRouter as Router, Route,Link} from 'react-router-dom';
+import axios from 'axios';
+
 
 
 class Header extends Component {
-    constructor(props){
-        super(props);
-        this.state={
-            location:null,
-        }
-    }
-    componentDidMount(){
-        console.log(this.findLocation());
 
-            
-            
+    componentDidMount(){
+        this.findLocation();       
     }
     findLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
                 var geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&key=AIzaSyBgEzBTBpggPy6ouKjcIaKkNHlyAuKZ59Q";
+                
                 $.ajax({
                     url: geocode,
                     type: 'POST',
@@ -32,9 +28,15 @@ class Header extends Component {
                         if (myJSONResult.status === 'OK') {
                             
                             var tag = "";
-                            tag += myJSONResult.results[2].formatted_address;
+                            for(var i=0;i<myJSONResult.results.length;i++){
+                                if(myJSONResult.results[i].types[0]==="postal_code"){
+                                    window.sessionStorage.setItem('location',myJSONResult.results[i].address_components[0].long_name.replace("-",""))
+                                    tag += myJSONResult.results[i].formatted_address;
+                                    break;
+                                }
+                            }
                             document.getElementById("searchInput").value = tag;
-                            //console.log(myJSONResult.results)
+                            
                             
                             return tag;
                         } else if (myJSONResult.status === 'ZERO_RESULTS') {
@@ -47,31 +49,23 @@ class Header extends Component {
                             alert("일반적으로 쿼리(address 또는 latlng)가 누락되었음을 나타냅니다.");
                         }
                     }
-                }).then(res=>{
-                    console.log(res.results)
-                    this.setState({
-                        location:res.results[2].formatted_address
-                    })
-                });
+                })
                 
             });
         } else {
             alert("Geolocation is not supported by this browser.");
         }
     }
-    search(a){
-        alert(a)
-    }
+
     render() {
-        console.log(this.state.location)
             return (
-                <div className = "wrapper" >
-        
+                <div className = "header_Wrapper" >
+                    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
             <div className = "icon" >
-                <a href="/">
-                    <img src = { Icon } alt = "mark"width = "50px"height = "50px" />
-                    <p id = "iconName" > 띵동 </p> 
-                </a>
+                <Link to="/">
+                    <img src = { Icon } alt = "mark"width = "140px"height = "140px" />
+                     
+                </Link>
             </div>
             <div></div>
             <div className = "search" >
@@ -79,8 +73,9 @@ class Header extends Component {
                     <img src = { Pin }alt = "mark"width = "50px"height = "50px"onClick = { this.findLocation }onTouchStart = { this.findLocation }/>
                 </ReactTouchEvents> 
                 <input type = "text" style = {{ width: "500px", height: "50px", fontSize: "30px" }} id = "searchInput"></input> 
-                <img src = { Search }alt = "mark"width = "50px"height = "50px" onClick={()=>this.search(this.state.location)}/>
+                <Link to={"/list/all/"+window.sessionStorage.getItem('location')}><img src = { Search }alt = "mark"width = "50px"height = "50px"/></Link>
             </div> 
+           
         </div>
         );
     }
