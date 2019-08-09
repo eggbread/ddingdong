@@ -9,7 +9,8 @@ class Menu extends Component{
             item:{},
             isLoaded:false,      
             storeID:props.match.params.storeID,
-            crawling:[]
+            crawling:[],
+            postReady:false
         }
     }
     
@@ -27,7 +28,8 @@ class Menu extends Component{
             data:this.state.item.storename+"후기"
         }).then(res=>{
             this.setState({
-                crawling:res.data
+                crawling:res.data,
+                postReady:true
             })
         })
         })
@@ -72,13 +74,30 @@ class Menu extends Component{
                   }
                 ]
               };  
-            
+            var posting;
+            if(this.state.postReady){
+                posting=<div className="posting">
+                <table>
+                    <tbody>
+                    {this.state.crawling.map((item,index)=>
+                        <tr key={index}>
+                            <td><img src={require('../asset/images/icon2.png')} width="50px" height="50px" alt=""></img></td><td><h4><a href={item.link}>{item.title}</a></h4>{item.passage}</td>
+                        </tr>
+                        
+                    )}
+                    </tbody>
+                </table>
+
+        </div>
+            }else{
+                posting=<h1>Loading...</h1>
+            }
             return(
                 <div>   
                 {/* <img src={require("../asset/images/eggbread/4/1.jpg")} alt="menu" height="400px"></img> */}
                 <div className="menu_storeName">
                     <h1>{this.state.item.storename}</h1>
-                    <img src={require("../asset/images/"+this.state.item.userid+"/"+this.state.item.storeID+"/main.png")} alt=""></img>
+                    <img src={require("../asset/images/"+this.state.item.userid+"/main.png")} alt=""></img>
                 </div>
                 <table className="menuTable">
                     <tbody>
@@ -90,7 +109,7 @@ class Menu extends Component{
                    <tr key={index}>
                        <td>
             
-                        <img src={require(("../asset/images/"+this.state.item.userid+"/"+this.state.item.storeID+"/"+(index+1)+".png")&&("../asset/images/"+this.state.item.userid+"/"+this.state.item.storeID+"/"+(index+1)+".jpg"))} alt="" width="150px" height="80px"/>
+                        <img src={require(("../asset/images/"+this.state.item.userid+"/"+(index+1)+".jpg"))} alt="" width="150px" height="80px"/>
                        </td><td>{item.name}<br/> </td><td>{item.price}</td>
                    </tr>
                    )}
@@ -101,16 +120,7 @@ class Menu extends Component{
                 <div width={"50px"} height={"50px"}>
                     <HorizontalBar data={data2}  options={{maintainAspectRatio:false}}></HorizontalBar>
                 </div>
-                <div className="posting">
-                        <table>
-                            {this.state.crawling.map((item,index)=>
-                                <tr>
-                                    <td><img src={require('../asset/images/icon2.png')} width="50px" height="50px" alt=""></img></td><td><a href={item.link}>{item.title}</a>{item.passage}</td>
-                                </tr>
-                            )}
-                        </table>
-
-                </div>
+                {posting}
                 <div>
                     전화번호 : {this.state.item.tel} <br></br>
                     위치 : {this.state.item.location} <br></br>

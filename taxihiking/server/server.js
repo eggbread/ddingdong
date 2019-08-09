@@ -98,6 +98,7 @@ router.route(app.post('/signup',(req,res)=>{
             throw err;
         }
         console.log("INSERT OK");
+        res.sendStatus(200)
     })
 }));
 

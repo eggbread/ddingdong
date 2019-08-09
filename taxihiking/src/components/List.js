@@ -92,7 +92,7 @@ class List extends Component {
       <div>
         <Container>
           <Row>
-            <Col><Link to={"/list/koreanfood/"+this.state.location}>한식</Link></Col>
+            <Col><Link to={"/list/koreanfood/"+this.state.location}><button>한식</button></Link></Col>
             <Col><Link to={"/list/westfood/"+this.state.location}>양식</Link></Col>
             <Col><Link to={"/list/japanfood/"+this.state.location}>일식</Link></Col>
             <Col><Link to={"/list/chinafood/"+this.state.location}>중식</Link></Col>
@@ -111,7 +111,7 @@ class List extends Component {
                     <Row key={item.storename} >
                       <Col>
                         
-                        <img src={require(("../asset/images/"+item.userid+"/"+item.storeID+"/main.png")||("../asset/images/"+item.userid+"/"+item.storeID+"/main.jpg"))} alt="" width="150px" height="80px"/>
+                        <img src={require("../asset/images/"+item.userid+"/main.png")} alt="" width="150px" height="80px"/>
                       </Col>
                       <Col>
                           <Link to={'/menu/'+item.storeID} >{item.storename}</Link>

@@ -20,10 +20,12 @@ class Signup extends Component{
         birth:birth
       })
     .then(result => {
-      if(result.statusText==="OK"){
-        alert("OK");
+      console.log(result)
+      if(result){
+        alert("회원가입이 되었습니다.");
+        window.location.href="/"
       }else{
-
+        alert("회원가입이 실패하였습니다.")
       }
     })
     
