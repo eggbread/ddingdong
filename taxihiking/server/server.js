@@ -6,7 +6,7 @@ const bodyparser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const multer =require('multer');
 const fs = require('fs');
-
+process.setMaxListeners(0);
 const connection = mysql.createConnection({
     host:"localhost",
     user:'root',
@@ -108,50 +108,28 @@ app.post('/signin',(req,res)=>{
     let isLogin;
         connection.query(sql,function(err,result){
             if(err) throw err;
-            if(data.id===result[0].id){
+            if(result.length===0){
+                console.log("No result")
+                isLogin="id"
+            }else{
                 if(data.password===result[0].password){
                     //로그인 성공
                     let token = jwt.sign({
-                        id:data.id
+                            id:data.id
                     },
                     'ddingdong',{
-                     expiresIn:'100m'
+                    expiresIn:'100m'
                     })
                     isLogin=token;
                 }else{
-                    isLogin="pass"//비밀번호 오류
+                        isLogin="pass"//비밀번호 오류
                 }
-            }else{
-                isLogin="id"//ID 오류
             }
             res.send(isLogin)
         })
 
 });
-app.post('/menu/search', (req, res) => {
-    var client = require('cheerio-httpcli');
-    var data = req.body.data;
-    var word = encodeURIComponent(data)
-    let url = 'https://www.google.com/search?q=' + word;
-    var re = []
-    client.fetch(url, re, function(err, $, res) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      $(".rc").each(function(post) {
-        var param = {
-          title : $(this).find('.r').find('.LC20lb').text(),
-          link : $(this).find('.r').children().attr('href'),
-          passage : $(this).find('.s').text()
-        }
-        re.push(param)
-      })
-   })
-   setTimeout(function() {
-     res.send(re);
-   }, 1500);
-  });
+
 router.route(app.post('/menu',(req,res)=>{
     var data = req.body;
     var sql = 'select * from store where storeID like "'+data.storeID+'"';
@@ -170,7 +148,6 @@ router.route(app.post('/storemanage',(req,res)=>{
             order.emit(storeId,data.order);
         })
     })
-    var data = req.body;
     var token = jwt.verify(req.body.token,'ddingdong');
     var sql = 'select * from store where userid like "'+token.id+'"';
     connection.query(sql,function(err,result){
@@ -179,45 +156,101 @@ router.route(app.post('/storemanage',(req,res)=>{
     })
 }))
 
-router.route(app.post('/storemanage/fix',multer_settings.single('mainImg'),(req,res)=>{
-    const file = req.file;
+var receiveMenu;
+router.route(app.post('/storemanage/menu',(req,res)=>{
+    receiveMenu=req.body
+}))
+
+router.route(app.post('/storemanage/fix',multer_settings.fields([{name:'mainImg'},{name:'menuImg'}]),(req,res)=>{
+    console.log(receiveMenu)
+    const file = req.files;
     const input_data=req.body;
     //DB에 추가
-    let storeId;
-    connection.query('select * from store where userid like "'+input_data.userId+'"',function(err,result){
-        if(err) throw err;
-        if(result.length===0){
-            var len;
-            connection.query('select * from store',function(err,result1){
-                // console.log(result1)
-                len=result1.length+1
-            })
-            storeId=len;
-        }else{
-            storeId=result.storeID
-        }
-    })
-    console.log(storeId)
-    fs.readFile(file.path,(err,data)=>{
+    if(input_data.subbtn==="추가하기"){
+        var sql = "insert into store (storename,userid,tel,location,menu,openinghours,description,category,postNumber) values('"+input_data.storename+"','"+input_data.userId+"','"+input_data.storetel+"','"+input_data.address+"','"+JSON.stringify(receiveMenu.menu)+"','"+input_data.storetime+"','"+input_data.storedesc+"','"+ input_data.storecategory +"','"+receiveMenu.postcode+"');"
+        connection.query(sql, function(err) {
+            if (err) {
+            throw err;
+            }else{
+                console.log("insert OK")
+            }
+           
+        })
+    }else if(input_data.subbtn==="수정하기"){
+        var sql = "update store set storename='"+input_data.storename+"',tel='"+ input_data.storetel +"',menu='"+ JSON.stringify(receiveMenu.menu) +"',location='"+input_data.address+"',openinghours='"+ input_data.storetime+"',description='"+ input_data.storedesc +"',category='"+ input_data.storecategory + "'where userid='"+input_data.userId+"';"
+        connection.query(sql, function(err) {
+          if (err) {
+            throw err;
+          }else{
+              console.log("updata OK")
+          }
+        })
+    }
     var dir='../src/asset/images/'+input_data.userId+"/";
-        // if(fs.existsSync(dir+data.input_userId)){
-        //     fs.mkdirSync(dir+input_data.userId)
-        //     // if(fs.existsSync(dir+input_data.userId+"/"+input_data.storeID))
-        // }
-        // var filepath = dir+file.originalname;
-        // fs.writeFile(filepath,data,function(err){
-        //     if(err){
-        //         throw err;
-        //     }else{
-        //         fs.unlink(file.path,function(remove){
-        //             if(remove){
-        //                 throw remove;
-        //             }
-        //         })
-        //     }
-        // })
+    if(file['mainImg']){
+        fs.readFile(file['mainImg'][0].path,(err,data)=>{
+            var filepath = dir+"main.jpg";
+            fs.writeFile(filepath,data,function(err){
+                if(err){
+                    throw err;
+                }else{
+                    fs.unlink(file['mainImg'][0].path,function(remove){
+                        if(remove){
+                            throw remove;
+                        }
+                    })
+                }
+            })
+        })
+    }
+    if(file['menuImg']){
+    for(var i in file['menuImg']){
+        fs.readFile(file['menuImg'][i].path,(_err,data)=>{
+        var filepath = dir+parseInt(i)+'.jpg';
+        fs.writeFile(filepath,data,function(err){
+            if(err){
+                throw err;
+            }else{
+                fs.unlink(file['menuImg'][i].path,function(remove){
+                    if(remove){
+                        throw remove;
+                    }
+                })
+            }
+        })
     })
+    setTimeout(function() {
+        
+      }, 1500);
+    }}
+    res.redirect("http://localhost:3000/storemanage")
 }))
+
+app.post('/menu/search', (req, res) => {
+    var client = require('cheerio-httpcli');
+    var data = req.body.data;
+    var word = encodeURIComponent(data)
+    let url = 'https://search.naver.com/search.naver?sm=tab_hty.top&where=post&query=' + word;
+    var re = []
+    client.fetch(url, re, function(err, $, res) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      $(".sh_blog_top").each(function(post) {
+        var param = {
+          title : $(this).find('.sh_blog_title').text(),
+          link : $(this).find('.sh_blog_title').attr('href'),
+          image : $(this).find('.sh_blog_thumbnail').attr('src'),
+          passage : $(this).find('.sh_blog_passage').text()
+        }
+        re.push(param)
+      })
+   })
+   setTimeout(function() {
+     res.send(re);
+   }, 1500);
+  });
 
 var server=app.listen(4000,()=>{
     console.log('Express app listening on port 4000');

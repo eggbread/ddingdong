@@ -53,9 +53,10 @@ class Signin extends Component{
           var data = res.data;
           console.log(data);
           window.sessionStorage.setItem('token',data)
-          if(data==="pass"||data==="id"){
-            console.log("HI")
-            alert("비밀번호가 틀렸습니다");
+          if(data==="id"){
+            alert("아이디가 틀렸거나 존재하지 않는 아이디입니다.");
+          }else if(data==="pass"){
+            alert("비밀번호가 옳바르지 않습니다.")
           }else{
             document.location.href="/storemanage";
           }

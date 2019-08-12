@@ -1,0 +1,25 @@
+app.post('/storesetting', (req, res) => {
+  var data = req.body;
+  console.log(data.menu);
+  var sql = "insert into store (storename,userid,tel,location,menu,openinghours,description) values('" + data.storename + "','" + data.id + "','" + data.tel + "','" + data.location + "','" + data.menu + "','" + data.openinghours + "','" + data.description + "');"
+  console.log(sql);
+  connection.query(sql, function(err) {
+    if (err) {
+      throw err;
+    }
+  })
+  res.send("{status : success}");
+})
+
+app.post('/updatestoredata', (req, res) => {
+  var data = req.body;
+  console.log(data);
+  var sql = "update store set storename='"+data.storename+"',tel='"+ data.tel +"',location='"+data.location+"',menu='"+ data.menu +"',openinghours='"+ data.openinghours+"',description='"+ data.description + "'where userid='"+data.id+"';"
+  console.log(sql);
+  connection.query(sql, function(err) {
+    if (err) {
+      throw err;
+    }
+  })
+  res.send("{status : success}");
+})

@@ -72,7 +72,7 @@ class Order extends Component{
                         this.state.menu.map((item,index)=>
                         
                         <Row key={index}>
-                            <Col><img src={require(("../asset/images/"+this.state.item.userid+"/"+(index+1)+".jpg"))} alt="" width="150px" height="80px"/></Col>
+                            <Col><img src={require(("../asset/images/"+this.state.item.userid+"/"+index+".jpg"))} alt="" width="150px" height="80px"/></Col>
                         <Col className="menu_List"><div className="menu_Name">{item.name}</div><NumericInput className="menu_Many" value={0} min={0} step={1} onChange={this.addCart.bind(this)}></NumericInput></Col>
                        </Row>
                         

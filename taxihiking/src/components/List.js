@@ -111,7 +111,7 @@ class List extends Component {
                     <Row key={item.storename} >
                       <Col>
                         
-                        <img src={require("../asset/images/"+item.userid+"/main.png")} alt="" width="150px" height="80px"/>
+                        <img src={require("../asset/images/"+item.userid+"/main.jpg")} alt="" width="150px" height="80px"/>
                       </Col>
                       <Col>
                           <Link to={'/menu/'+item.storeID} >{item.storename}</Link>

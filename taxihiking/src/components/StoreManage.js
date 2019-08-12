@@ -9,6 +9,7 @@ import { Container, Row, Col } from 'react-grid-system';
 
 
 var clickObj;
+var location;
 const customStyles = {
     content : {
       top                   : '25%',
@@ -34,7 +35,8 @@ class StoreManage extends Component{
             orderOpen:false,
             orderList:{},
             userId:null,
-            hasStore:false
+            hasStore:false,
+            
         }
     }
     handleAddress = (data) => {
@@ -52,7 +54,8 @@ class StoreManage extends Component{
           fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
         }
         this.postClose();
-        document.getElementById('address').value=fullAddress;  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+        location=data.postcode1+data.postcode2;
+         document.getElementById('address').value=fullAddress;  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     }
 
     componentDidMount(){
@@ -141,12 +144,15 @@ class StoreManage extends Component{
             $('[name="storetel"]').val(clickObj.tel)
             $('[name="address"]').val(clickObj.location)
             $('#storemenu').append(JSON.parse(clickObj.menu).map((item,index)=>
-                '<li><img width="150px" height="150px"src='+require('../asset/images/'+clickObj.userid+"/"+(index+1)+".jpg")+'></img><input type="file"></input><br/><input value='+item.name+'></input>  <input value='+item.price+'></input><button type="button" class="removebtn">삭제</button></button></li>'))
+                '<li><img width="150px" height="150px"src='+require('../asset/images/'+clickObj.userid+"/"+index+".jpg")+'></img><input type="file"></input><br/><input value="'+item.name+'" class="key"></input>  <input value="'+item.price+'" class="value"></input><button type="button" class="removebtn"  onclick=this.parentElement.remove()>삭제</button></button></li>'))
             $('[name="storetime"]').val(clickObj.openinghours)
+            $('#menumany').val(JSON.parse(clickObj.menu).length);
+            $('#menumany').text(JSON.parse(clickObj.menu).length);
             $('[name="storedesc"]').val(clickObj.description)
-             $('[name="storeimg"]').attr('src',require('../asset/images/'+clickObj.userid+"/main.png"))
+             $('[name="storeimg"]').attr('src',require('../asset/images/'+clickObj.userid+"/main.jpg"))
         }else{
             $('#subbtn').html("추가하기")
+            $('#subbtn').val('추가하기')
         }
     }
 
@@ -157,16 +163,37 @@ class StoreManage extends Component{
     }
 
     addbtn(){
-        $('#storemenu').append('<li><input type="file"></input><br/><input type="text"></input><input type="text"></input><button type="button">삭제</button></li>')
+        $('#storemenu').append('<li class="storemenu"><input type="file" name="menuImg"></input><br/><input type="text" class="key"></input><input type="text" class="value"></input><button type="button" onclick=this.parentElement.remove()>삭제</button></li>')
     }
-
+    
     makeorderList(){
         const temp=this.state.orderList.orderMenu;
         Object.keys(temp).map((item)=>
-            $('#receiveOrderList').append('<li>이름 : '+temp[item].menuname+', 개수 : '+temp[item].menumany+'</li>')
+            $('#receiveOrderList').append('<li name="storemenu">이름 : '+temp[item].menuname+', 개수 : '+temp[item].menumany+'</li>')
         )
     }
+    sendorderList(){
+        let key = document.getElementsByClassName('key');
+  let value = document.getElementsByClassName('value');
+  let count = key.length;
+  let array = []
+  for (var i = 0; i < count; i++) {
+    let jsonFormat = {}
+    jsonFormat['name'] = key[i].value;
+    jsonFormat['click'] = "0"
+    jsonFormat['price'] = value[i].value
+    array.push(jsonFormat)
+}
+    axios.post('http://localhost:4000/storemanage/menu',{
+        userId:this.state.userId,
+        menu:array,
+        postcode:location,
+        mode:$('#subbtn').val()
+    }).then(res=>{
+        console.log(res)
+    })
 
+    }
     render(){
         if(!this.state.isLoaded){
             return <div>Loading...</div>
@@ -208,7 +235,7 @@ class StoreManage extends Component{
                                 
                                     <table><tbody>{JSON.parse(item.menu).map((food,index)=>
                                         <Col> 
-                                            <td><img src={require('../asset/images/'+item.userid+"/"+(index+1)+".jpg")} alt="" width="100px" height="100px"></img></td>
+                                            <td><img src={require('../asset/images/'+item.userid+"/"+index+".jpg")} alt="" width="100px" height="100px"></img></td>
                                             <td><p>음식이름 : {food.name}</p>
                                             <p>가격 : {food.price}</p></td>
                                         </Col>
@@ -218,7 +245,10 @@ class StoreManage extends Component{
                                     <Col>설명</Col>
                                     <Col>{item.description}</Col>
                                 </Row>
-                        
+                                <Row>
+                                    <Col>QR코드</Col>
+                                    <Col><img src=' https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=www.naver.com' alt=""></img></Col>
+                                </Row>
                         </Container>
                         <button onClick={this.modalOpen.bind(this)} className="modifyStore">수정하기</button>
                         <br/>
@@ -237,13 +267,23 @@ class StoreManage extends Component{
                         <p>가게이름 : <input type="text" name="storename" ></input></p>
                         <p>전화번호 : <input type="text" name="storetel"></input></p>
                         <p>위치 : <button type="button" onClick={this.postOpen.bind(this)} id="storelocation">주소 찾기</button></p>
-                        <p><input type="text" name="address"></input></p>
+                        <p><input type="text" name="address" id="address"></input></p>
                         <p>영업시간 : <input type="text" name="storetime"></input></p>
-                        메뉴 : <ul id="storemenu"></ul><button type="button" onClick={this.addbtn}>메뉴 추가</button>
+                        <p>분류 : <select name="storecategory">
+                                <option>한식</option>
+                                <option>양식</option>
+                                <option>일식</option>
+                                <option>중식</option>
+                                <option>족발</option>
+                                <option>치킨</option>
+                                <option>분식</option>
+                                <option>피자</option>
+                            </select></p>
+                        메뉴 : <ul id="storemenu" name="storemenu"></ul><button type="button" onClick={this.addbtn.bind(this)}>메뉴 추가</button>
                         <p>설명 : <input type="text" name="storedesc"></input></p>
                         <p>메인 사진 : <input type="file" name='mainImg' id='mainImg' accept="image/*"></input></p>
                         <img src="" alt="" name="storeimg" width="150px" height="150px"></img> <br/>
-                        <button type="submit" id="subbtn">수정하기</button>   
+                        <button type="submit" id="subbtn" name="subbtn" value="수정하기" onClick={this.sendorderList.bind(this)}>수정하기</button>   
                     </form>
                 </Modal>
 

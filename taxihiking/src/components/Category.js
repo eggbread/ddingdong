@@ -5,7 +5,7 @@ import App from '../App';
 import axios from 'axios';
 import { BrowserRouter as Router, Route,Link} from 'react-router-dom';
 import { Container, Row, Col } from 'react-grid-system';
-import {ButtonToolbar,Button} from 'react-bootstrap'
+import { ButtonToolbar, Button } from 'react-bootstrap';
 
 
 class Category extends Component{

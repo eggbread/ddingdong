@@ -31,6 +31,7 @@ class Menu extends Component{
                 crawling:res.data,
                 postReady:true
             })
+            console.log(res)
         })
         })
         
@@ -81,7 +82,7 @@ class Menu extends Component{
                     <tbody>
                     {this.state.crawling.map((item,index)=>
                         <tr key={index}>
-                            <td><img src={require('../asset/images/icon2.png')} width="50px" height="50px" alt=""></img></td><td><h4><a href={item.link}>{item.title}</a></h4>{item.passage}</td>
+                            <td><img src={item.image} width="150px" height="150px" alt=""></img></td><td><h4><a href={item.link}>{item.title}</a></h4>{item.passage}</td>
                         </tr>
                         
                     )}
@@ -97,7 +98,7 @@ class Menu extends Component{
                 {/* <img src={require("../asset/images/eggbread/4/1.jpg")} alt="menu" height="400px"></img> */}
                 <div className="menu_storeName">
                     <h1>{this.state.item.storename}</h1>
-                    <img src={require("../asset/images/"+this.state.item.userid+"/main.png")} alt=""></img>
+                    <img src={require("../asset/images/"+this.state.item.userid+"/main.jpg")} alt=""></img>
                 </div>
                 <table className="menuTable">
                     <tbody>
@@ -109,7 +110,7 @@ class Menu extends Component{
                    <tr key={index}>
                        <td>
             
-                        <img src={require(("../asset/images/"+this.state.item.userid+"/"+(index+1)+".jpg"))} alt="" width="150px" height="80px"/>
+                        <img src={require(("../asset/images/"+this.state.item.userid+"/"+index+".jpg"))} alt="" width="150px" height="80px"/>
                        </td><td>{item.name}<br/> </td><td>{item.price}</td>
                    </tr>
                    )}
