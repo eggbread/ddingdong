@@ -3,6 +3,7 @@ import NumericInput from 'react-numeric-input'
 import $ from 'jquery'
 import io from 'socket.io-client'
 import { Container, Row, Col } from 'react-grid-system';
+import axios from "axios";
 
 class Order extends Component{
     
@@ -11,10 +12,12 @@ class Order extends Component{
         this.state={
             item:JSON.parse(window.sessionStorage.getItem('menu')),
             menu:JSON.parse(JSON.parse(window.sessionStorage.getItem('menu')).menu),
-            pay:0
+            pay:0,
+            
         }
         
     }
+    
     addCart(){
         var cost = this.state.menu;
         var sum =0
@@ -45,6 +48,14 @@ class Order extends Component{
                     count++;
                 }
             })
+
+            console.log(orderList.orderMenu)
+            axios.post('http://localhost:4000/order',{
+                order:orderList.orderMenu,
+                store:this.state.item.storename
+            }).then(res=>{
+                console.log(res)
+            })
             const socket = io('http://localhost:4000/storemanage');
             socket.emit('order message',{
                 storeID:this.state.item.storeID,
@@ -57,6 +68,7 @@ class Order extends Component{
     }
 
     render(){
+        console.log(this.state)
         return(
             <div>
                 <h1>주문하기</h1>
@@ -72,7 +84,7 @@ class Order extends Component{
                         this.state.menu.map((item,index)=>
                         
                         <Row key={index}>
-                            <Col><img src={require(("../asset/images/"+this.state.item.userid+"/"+index+".jpg"))} alt="" width="150px" height="80px"/></Col>
+                            <Col><img src={require(("../asset/images/"+this.state.item.userid+"/"+item.img))} alt="" width="150px" height="80px"/></Col>
                         <Col className="menu_List"><div className="menu_Name">{item.name}</div><NumericInput className="menu_Many" value={0} min={0} step={1} onChange={this.addCart.bind(this)}></NumericInput></Col>
                        </Row>
                         

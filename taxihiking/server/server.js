@@ -6,22 +6,25 @@ const bodyparser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const multer =require('multer');
 const fs = require('fs');
+var https = require('https');
+
 process.setMaxListeners(0);
 const connection = mysql.createConnection({
     host:"localhost",
     user:'root',
     password:'maxim1658',
     port:'3306',
+
     database:'ddingdong'
 });
 connection.connect();
 var multer_settings = multer({
     dest:'./'
 })
+
 var app = express();
 app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
-
 
 app.all('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -39,12 +42,44 @@ router.route(app.post('/',(req,res)=>{
     }catch(err){
         isLogin=false
     }
+    console.log(isLogin)
     res.send(isLogin)
-    
 }));
+
+// router.route(app.post('/search',(req,res)=>{
+//     // var api_url='https://openapi.naver.com/v1/search/local.json?query='+encodeURI('대전')+'&display=10&start=1&sort=random';
+//     // var options = {
+//     //     url : api_url,
+//     //     headers : {
+//     //         'X-Naver-Client-Id':'ugRplFEURHEfE8YTteVX',
+//     //         'X-Naver-Client-Secret':'aUtDRkxtwP'
+//     //     }
+//     // }
+//     // var request = require('request');
+//     // request.get(options,function(error,response,body){
+//     //     if (!error && response.statusCode == 200) {
+//     //         res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+//     //         res.end(body);
+//     //       } else {
+//     //         res.status(response.statusCode).end();
+//     //         console.log('error = ' + response.statusCode);
+//     //       }
+//     // })
+//     console.log(req.body)
+//     fs.readdir('../src/asset/images/'+req.body.user,function(err,file){
+//         var temp = file.splice(file.indexOf('main.jpg'))
+//         console.log(file)
+//         console.log(temp)
+//         res.send(file)
+//     })
+// }))
 
 router.route(app.post('/list',(req,res)=>{
     var category;
+    console.log(req.body)
+    if(req.body.location){
+
+    
     switch(req.body.category){
         case 'koreanfood':
             category="한식"
@@ -77,14 +112,15 @@ router.route(app.post('/list',(req,res)=>{
 
     }
     // '+/*req.body.location*/+'
-    connection.query('SELECT * FROM store where category like "'+category+'" AND postNumber like "%";',function(err,rows,fields){
+    connection.query('SELECT * FROM store where category like "'+category+'" AND postNumber like "'+req.body.location+'";',function(err,rows,fields){
         if(!err){
+            // console.log(rows)
             res.send(rows);         
         }else{
             console.log('Error while performing Query',err);
         }
     });
-}));
+}}));
 
 router.route(app.post('/signup',(req,res)=>{
     var data = req.body;
@@ -120,7 +156,10 @@ app.post('/signin',(req,res)=>{
                     'ddingdong',{
                     expiresIn:'100m'
                     })
-                    isLogin=token;
+                    isLogin={
+                        token:token,
+                        user:data.id
+                    }
                 }else{
                         isLogin="pass"//비밀번호 오류
                 }
@@ -161,6 +200,42 @@ router.route(app.post('/storemanage/menu',(req,res)=>{
     receiveMenu=req.body
 }))
 
+router.route(app.post('/order',(req,res)=>{
+    var order = req.body.order
+    var store = req.body.store
+   
+    // console.log(order.order[0])
+    // for(var i in order){
+    //     console.log(order[i])
+    // }
+    console.log(store)
+    var sql='select (menu) from store where storename like "'+store+'";';
+    connection.query(sql,function(err,result){
+        if(err) throw err;
+        var menu = JSON.parse(result[0].menu)
+        console.log(order)
+        console.log(menu)
+        for(var i in menu){
+            for(var j in order){
+                if(order[j].menuname===menu[i].name){
+                    console.log(order[i].menuname)
+                    console.log(menu[j].name)
+                    var temp=parseInt(menu[j].click)
+                    menu[j].click += parseInt(order[i].menumany)
+                }
+                console.log(j)
+            }
+        }
+        console.log(menu)
+        sql="UPDATE store SET menu ='"+JSON.stringify(menu)+"' where storename like '"+store+"';";
+        console.log(sql)
+        connection.query(sql,function(err,result){
+            if(err) throw err;
+            console.log("updata")
+        })
+    })
+}))
+
 router.route(app.post('/storemanage/fix',multer_settings.fields([{name:'mainImg'},{name:'menuImg'}]),(req,res)=>{
     console.log(receiveMenu)
     const file = req.files;
@@ -187,6 +262,7 @@ router.route(app.post('/storemanage/fix',multer_settings.fields([{name:'mainImg'
         })
     }
     var dir='../src/asset/images/'+input_data.userId+"/";
+    console.log(file['mainImg'])
     if(file['mainImg']){
         fs.readFile(file['mainImg'][0].path,(err,data)=>{
             var filepath = dir+"main.jpg";
@@ -203,26 +279,21 @@ router.route(app.post('/storemanage/fix',multer_settings.fields([{name:'mainImg'
             })
         })
     }
+    console.log(file['menuImg'])
     if(file['menuImg']){
-    for(var i in file['menuImg']){
-        fs.readFile(file['menuImg'][i].path,(_err,data)=>{
-        var filepath = dir+parseInt(i)+'.jpg';
-        fs.writeFile(filepath,data,function(err){
-            if(err){
-                throw err;
-            }else{
-                fs.unlink(file['menuImg'][i].path,function(remove){
-                    if(remove){
-                        throw remove;
-                    }
-                })
+        var count=0;
+        for(var i =0;i<receiveMenu.fix.length;i++){
+            console.log(receiveMenu.fix[i])
+            console.log(count)
+            if(receiveMenu.fix[i]){
+                var data =fs.readFileSync(file['menuImg'][count].path)
+                var filepath = dir+file['menuImg'][count].originalname;
+                console.log(filepath)
+                count++
+                fs.writeFileSync(filepath,data);
             }
-        })
-    })
-    setTimeout(function() {
-        
-      }, 1500);
-    }}
+        }
+    }
     res.redirect("http://localhost:3000/storemanage")
 }))
 
@@ -251,6 +322,8 @@ app.post('/menu/search', (req, res) => {
      res.send(re);
    }, 1500);
   });
+
+
 
 var server=app.listen(4000,()=>{
     console.log('Express app listening on port 4000');

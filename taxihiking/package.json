@@ -69,6 +69,7 @@
     "react-dropdown-select": "^3.3.2",
     "react-geocode": "^0.1.2",
     "react-google-api-component": "^0.2.3",
+    "react-google-places-autocomplete": "^1.5.1",
     "react-grid-system": "^5.0.2",
     "react-input-number": "^5.0.17",
     "react-meta-tags": "^0.7.4",

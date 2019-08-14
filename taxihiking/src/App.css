@@ -48,7 +48,10 @@ table tbody tr td {
   text-shadow: 0 0 4px black;
 }
 #list{
-  height: 75%;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 250px 250px 250px 250px;
+  grid-template-rows: 250px 250px;
 }
 .category{
   width: 80%;
@@ -74,7 +77,10 @@ table tbody tr td {
     width: 80%;
   }
   #list{
-    height: 50%;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 250px 250px;
+    grid-template-rows: 250px 250px 250px 250px;
   }
   .categoryText{
     position: absolute;

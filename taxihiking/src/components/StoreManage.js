@@ -28,7 +28,7 @@ class StoreManage extends Component{
         super(props);
         this.state={
             isLoaded:false,
-            item:{},
+            item:null,
             modalOpen:false,
             postOpen:false,
             addOpen:false,
@@ -36,7 +36,6 @@ class StoreManage extends Component{
             orderList:{},
             userId:null,
             hasStore:false,
-            
         }
     }
     handleAddress = (data) => {
@@ -58,10 +57,12 @@ class StoreManage extends Component{
          document.getElementById('address').value=fullAddress;  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     }
 
-    componentDidMount(){
+    componentWillMount(){
+        console.log("Hi")
         axios.post('http://localhost:4000/',{
             token:window.sessionStorage.getItem('token')
         }).then(res=>{
+            console.log(res.data)
             if(res.data){
                 axios.post('http://localhost:4000/storemanage',{
                     token:window.sessionStorage.getItem('token')
@@ -113,6 +114,7 @@ class StoreManage extends Component{
         })
         if(e.target.className==='modifyStore'){
             clickObj=this.state.item
+            console.log(clickObj)
             this.setState({
                addOpen:true
             })
@@ -144,7 +146,7 @@ class StoreManage extends Component{
             $('[name="storetel"]').val(clickObj.tel)
             $('[name="address"]').val(clickObj.location)
             $('#storemenu').append(JSON.parse(clickObj.menu).map((item,index)=>
-                '<li><img width="150px" height="150px"src='+require('../asset/images/'+clickObj.userid+"/"+index+".jpg")+'></img><input type="file"></input><br/><input value="'+item.name+'" class="key"></input>  <input value="'+item.price+'" class="value"></input><button type="button" class="removebtn"  onclick=this.parentElement.remove()>삭제</button></button></li>'))
+                '<li><img width="150px" height="150px"src='+require('../asset/images/'+clickObj.userid+"/"+item.img)+'></img><input type="file" name="menuImg" class="menuImg"></input><br/><input value="'+item.name+'" class="key"></input>  <input value="'+item.price+'" class="value"></input><button type="button" class="removebtn"  onclick=this.parentElement.remove()>삭제</button></button></li>'))
             $('[name="storetime"]').val(clickObj.openinghours)
             $('#menumany').val(JSON.parse(clickObj.menu).length);
             $('#menumany').text(JSON.parse(clickObj.menu).length);
@@ -163,7 +165,7 @@ class StoreManage extends Component{
     }
 
     addbtn(){
-        $('#storemenu').append('<li class="storemenu"><input type="file" name="menuImg"></input><br/><input type="text" class="key"></input><input type="text" class="value"></input><button type="button" onclick=this.parentElement.remove()>삭제</button></li>')
+        $('#storemenu').append('<li class="storemenu"><input type="file" name="menuImg" class="menuImg"></input><br/><input type="text" class="key"></input><input type="text" class="value"></input><button type="button" onclick=this.parentElement.remove()>삭제</button></li>')
     }
     
     makeorderList(){
@@ -174,28 +176,40 @@ class StoreManage extends Component{
     }
     sendorderList(){
         let key = document.getElementsByClassName('key');
-  let value = document.getElementsByClassName('value');
-  let count = key.length;
-  let array = []
-  for (var i = 0; i < count; i++) {
-    let jsonFormat = {}
-    jsonFormat['name'] = key[i].value;
-    jsonFormat['click'] = "0"
-    jsonFormat['price'] = value[i].value
-    array.push(jsonFormat)
-}
+        let value = document.getElementsByClassName('value');
+        let count = key.length;
+        let array = []
+        let fix =[]
+        for (var i = 0; i < count; i++) {
+            let jsonFormat = {}
+            jsonFormat['name'] = key[i].value;
+            jsonFormat['click'] = 0
+            jsonFormat['price'] = value[i].value
+            if(document.getElementsByClassName('menuImg')[i].value){
+                fix[i]=true
+                jsonFormat['img']=document.getElementsByClassName('menuImg')[i].files[0].name
+            }else{
+                fix[i]=false
+                jsonFormat['img']=JSON.parse(this.state.item.menu)[i].img
+    
+            }
+            array.push(jsonFormat)
+        }
+    console.log(array)
     axios.post('http://localhost:4000/storemanage/menu',{
         userId:this.state.userId,
         menu:array,
         postcode:location,
-        mode:$('#subbtn').val()
+        mode:$('#subbtn').val(),
+        fix:fix
+
     }).then(res=>{
         console.log(res)
     })
 
     }
     render(){
-        if(!this.state.isLoaded){
+        if(!this.state.item){
             return <div>Loading...</div>
         }else{
             const item =this.state.item
@@ -233,13 +247,13 @@ class StoreManage extends Component{
                                     <Col>메뉴</Col>
                                 </Row>
                                 
-                                    <table><tbody>{JSON.parse(item.menu).map((food,index)=>
+                                   {JSON.parse(item.menu).map((food,index)=>
                                         <Col> 
-                                            <td><img src={require('../asset/images/'+item.userid+"/"+index+".jpg")} alt="" width="100px" height="100px"></img></td>
+                                            <td><img src={require('../asset/images/'+item.userid+"/"+food.img)} alt="" width="100px" height="100px"></img></td>
                                             <td><p>음식이름 : {food.name}</p>
                                             <p>가격 : {food.price}</p></td>
                                         </Col>
-                                    )}</tbody></table>
+                                    )}
                                     
                                 <Row>
                                     <Col>설명</Col>
@@ -259,6 +273,7 @@ class StoreManage extends Component{
                 <div>
                 내 가게 보기 <br/>
                 {has_Store}
+                
                     
                 <Modal isOpen={this.state.modalOpen} onAfterOpen={this.open.bind(this)} ariaHideApp={false} onAfterClose={this.close.bind(this)} style={customStyles}>
                     <button onClick={this.modalClose.bind(this)} style={{float:"right"}}>X</button>

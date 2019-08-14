@@ -19,6 +19,11 @@ class Signin extends Component{
     }
   }
   componentDidMount(){
+    // fetch('http://localhost:4000/',{
+    //   method:"POST"
+    // }).then(res=>{
+    //   console.log(res)
+    // })
     axios.post('http://localhost:4000/',{
             token:window.sessionStorage.getItem('token')
         }).then(res=>{
@@ -37,7 +42,8 @@ class Signin extends Component{
     $('#id_Input').focus();
     
   }
-  logout(){
+  logout(){ 
+    window.sessionStorage.removeItem('user');
     window.sessionStorage.removeItem('token');
     window.location.reload();
 }
@@ -52,12 +58,13 @@ class Signin extends Component{
         if(res.status===200){
           var data = res.data;
           console.log(data);
-          window.sessionStorage.setItem('token',data)
+          window.sessionStorage.setItem('token',data.token)
           if(data==="id"){
             alert("아이디가 틀렸거나 존재하지 않는 아이디입니다.");
           }else if(data==="pass"){
             alert("비밀번호가 옳바르지 않습니다.")
           }else{
+            window.sessionStorage.setItem('user',data.user)
             document.location.href="/storemanage";
           }
         }
