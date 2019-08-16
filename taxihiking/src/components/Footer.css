@@ -1,0 +1,38 @@
+.copyright {
+    text-align: center; }
+    .copyright p {
+      font-size: 15px;
+      font-weight: 400;
+      color: #ccc;
+      margin: 0; }
+    .copyright ul {
+      margin: 20px 0 0;
+      padding: 0; }
+      .copyright ul li {
+        list-style: none;
+        display: inline-block; }
+        .copyright ul li a {
+          color: #ccc;
+          font-size: 22px;
+          padding: 0 10px;
+          opacity: 0.6;
+          -webkit-transition: 0.3s;
+          -o-transition: 0.3s;
+          transition: 0.3s; }
+          .copyright ul li a:hover {
+            opacity: 1;
+            text-decoration: none; }
+  
+  
+  
+  .main-block {
+    padding: 15px 0; }
+    @media (max-width: 768px) {
+      .main-block {
+        padding: 45px 0; } }
+  
+  .light-bg {
+    background: #f3f4f7; }
+  
+  .dark-bg {
+    background: #252a33; }

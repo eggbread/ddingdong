@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from "axios";
 import { HorizontalBar } from "react-chartjs-2";
+import Loader from 'react-loader'
 class Menu extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +44,7 @@ class Menu extends Component {
 
   render() {
     if (!this.state.isLoaded||!this.state.postReady) {
-      return <div>Loading...</div>;
+      return <Loader/>;
     } else {
       var temp = parseInt(0);
       var data = JSON.parse(this.state.item.menu);
@@ -105,7 +106,7 @@ class Menu extends Component {
           </div>
         );
       } else {
-        posting = <h1>Loading...</h1>;
+        posting = <Loader/>;
       }
       return (
         <div>

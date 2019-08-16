@@ -74,6 +74,7 @@ class StoreManage extends Component{
                             userId:res.data[0].userid,
                             hasStore:true
                         })
+                        this.receiveOrder()
                     }else{
                         this.setState({
                             isLoaded:true,
@@ -81,7 +82,7 @@ class StoreManage extends Component{
                             hasStore:false
                         })
                     }
-                    this.receiveOrder()
+                    
                 })
             }else{
                 document.location.href="/"
@@ -209,7 +210,7 @@ class StoreManage extends Component{
 
     }
     render(){
-        if(!this.state.item){
+        if(!this.state.isLoaded){
             return <div>Loading...</div>
         }else{
             const item =this.state.item

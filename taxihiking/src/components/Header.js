@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import Icon from "../asset/images/icon2.png";
+import Icon from "../asset/images/icon1.png";
 import Search from "../asset/images/search.png";
 import $ from "jquery";
-import "./Header.css";
-import { BrowserRouter as withRouter, Link } from "react-router-dom";
+import { BrowserRouter as withRouter,Router, Route, Link } from "react-router-dom";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import { Button } from 'react-bootstrap';
+import './Header.css';
 
 class Header extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class Header extends Component {
                                 break;
                             }
                         }
-                       
+
                     } else if (myJSONResult.status === 'ZERO_RESULTS') {
                         alert("지오코딩이 성공했지만 반환된 결과가 없음을 나타냅니다.\n\n이는 지오코딩이 존재하지 않는 address 또는 원격 지역의 latlng을 전달받는 경우 발생할 수 있습니다.")
                     } else if (myJSONResult.status === 'OVER_QUERY_LIMIT') {
@@ -43,31 +44,55 @@ class Header extends Component {
 
   };
 
-
+  
   render() {
+    debugger
     return (
-      <div className="header_Wrapper">
-        <div className="icon">
-          <Link to="/">
-            <img src={Icon} alt="mark" width="140px" height="140px" />
-          </Link>
+      <section class="slider d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                    <div class="slider-title_box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="slider-content_wrap">
+                                    <div class="col-md-12">
+                                      <img src={Icon} alt="DDing Dong" className="LogoIcon" paddingTop=""/>
+                                    </div>
+                                    <h5 style={{color: '#00A100', fontWeight: 'bold'}}>Eat tasty, Order Easily.</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-10">
+                                <form class="form-wrap mt-4">
+                                <div className="search justify-content-center">
+
+                                  <GooglePlacesAutocomplete
+                                    onSelect={({ description }) => {
+                                      this.findLocation(description)
+                                    }}
+                                    inputStyle={{color:"#00A100", fontWeight: 'bold'}}
+                                    onChange={this.findLocation.bind(this)}
+                                    placeholder="현재 주소를 검색하세요"
+                                  />
+
+                                  <Link to={"/list/all/"} inputStyle={{height:'100%'}}>
+                                  <Button variant="light" className="btn-search" type="button">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="100%" viewBox="0 0 24 24">
+                                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                                      </svg>
+                                  </Button>
+                                  </Link>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div />
-        <div className="search">
-          <GooglePlacesAutocomplete
-            onSelect={({ description }) => {
-              this.findLocation(description)
-            }}
-            onChange={this.findLocation.bind(this)}
-            placeholder="현재 주소를 검색하세요"
-            
-          />
-          
-          <Link to={"/list/all/"}>
-            <img src={Search} alt="mark" width="50px" height="50px" />
-          </Link>
-        </div>
-      </div>
+    </section>
     );
   }
 }
