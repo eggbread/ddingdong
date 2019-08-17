@@ -1,0 +1,38 @@
+.MenuImg {
+    width: 150px;
+    height: 150px;
+}
+.slider {
+    width: 100vw;
+}
+.posting{
+    width: 90%;
+    font-size: 10px;
+    
+}
+.posting a{
+    font-size: 15px;
+}
+.posting td{
+    /* width/: 20%; */
+    text-align: -webkit-match-parent;
+}
+.orderBtn{
+    float: right;
+    position: fixed;
+    bottom: 20px;
+    right: 0;
+    width: 200px;
+    height: auto;
+}
+.orderBtn *{
+    float: right;
+}
+.orderBtn img{
+    top:20px;
+   right: 90px;
+    position: absolute;
+}
+.storeData{
+    width: 90%;
+}

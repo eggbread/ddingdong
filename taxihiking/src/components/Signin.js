@@ -19,12 +19,12 @@ class Signin extends Component{
     }
   }
   componentDidMount(){
-    // fetch('http://localhost:4000/',{
+    // fetch('http://192.168.0.139:4000/',{
     //   method:"POST"
     // }).then(res=>{
     //   console.log(res)
     // })
-    axios.post('http://localhost:4000/',{
+    axios.post('http://192.168.0.139:4000/',{
             token:window.sessionStorage.getItem('token')
         }).then(res=>{
           if(res.data){
@@ -51,7 +51,7 @@ class Signin extends Component{
       
       var id = document.getElementById('id_Input').value;
       var password = document.getElementById('password_Input').value;
-      axios.post('http://localhost:4000/signin',{
+      axios.post('http://192.168.0.139:4000/signin',{
         id:id,
         password:password
       }).then(res=>{

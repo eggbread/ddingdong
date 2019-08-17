@@ -21,15 +21,15 @@ class App extends Component {
                   <Route path="/" component={Header}/>
                   <Route exact path="/" component={Category}/>
                 </div>
-                <div>
-                <Route exact path="/" component={Footer}/>
-                </div>
                 <Route path="/list/:category/" component={List}/>
                 <Route exact path="/menu/:storeID" component={Menu}/>
                 <Route path="/menu/:store/order" component={Order}/>
                 <Route path="/signin" component={Signin}/>
                 <Route path="/signup" component={Signup}/>
                 <Route path="/storemanage" component={StoreMange}/>
+                <div>
+                <Route path="/" component={Footer}/>
+                </div>
               </Router>
             </div>
          </div>

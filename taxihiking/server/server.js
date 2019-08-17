@@ -8,7 +8,7 @@ const multer =require('multer');
 const fs = require('fs');
 var https = require('https');
 
-process.setMaxListeners(0);
+process.setMaxListeners(20);
 const connection = mysql.createConnection({
     host:"localhost",
     user:'root',
@@ -180,9 +180,12 @@ router.route(app.post('/menu',(req,res)=>{
 }))
 
 router.route(app.post('/storemanage',(req,res)=>{
+    console.log("come")
     var io = require('socket.io').listen(server);
     var order = io.of('/storemanage').on('connection',function(socket){
+        console.log("Hi")
         socket.on('order message',function(data){
+            console.log(data)
             var storeId = socket.storeID = data.storeID;
             order.emit(storeId,data.order);
         })
@@ -218,12 +221,13 @@ router.route(app.post('/order',(req,res)=>{
         for(var i in menu){
             for(var j in order){
                 if(order[j].menuname===menu[i].name){
-                    console.log(order[i].menuname)
-                    console.log(menu[j].name)
-                    var temp=parseInt(menu[j].click)
-                    menu[j].click += parseInt(order[i].menumany)
+                    console.log("i"+i)
+                    console.log("j"+j)
+                    console.log(order[j].menuname)
+                    console.log(menu[i].name)
+                    var temp=parseInt(menu[i].click)
+                    menu[i].click += parseInt(order[j].menumany)
                 }
-                console.log(j)
             }
         }
         console.log(menu)
@@ -252,7 +256,7 @@ router.route(app.post('/storemanage/fix',multer_settings.fields([{name:'mainImg'
            
         })
     }else if(input_data.subbtn==="수정하기"){
-        var sql = "update store set storename='"+input_data.storename+"',tel='"+ input_data.storetel +"',menu='"+ JSON.stringify(receiveMenu.menu) +"',location='"+input_data.address+"',openinghours='"+ input_data.storetime+"',description='"+ input_data.storedesc +"',category='"+ input_data.storecategory + "'where userid='"+input_data.userId+"';"
+        var sql = "update store set storename='"+input_data.storename+"',tel='"+ input_data.storetel +"',menu='"+ JSON.stringify(receiveMenu.menu) +"',location='"+input_data.address+"',openinghours='"+ input_data.storetime+"',description='"+ input_data.storedesc +"',category='"+ input_data.storecategory+"',postNumber='"+ receiveMenu.postcode + "'where userid='"+input_data.userId+"';"
         connection.query(sql, function(err) {
           if (err) {
             throw err;
@@ -319,7 +323,7 @@ app.post('/menu/search', (req, res) => {
       })
    })
    setTimeout(function() {
-     res.send(re);
+     res.send(re.slice(0,5));
    }, 1500);
   });
 

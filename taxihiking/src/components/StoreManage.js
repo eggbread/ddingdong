@@ -6,23 +6,23 @@ import DaumPostcode from 'react-daum-postcode'
 import $ from 'jquery'
 import io from 'socket.io-client'
 import { Container, Row, Col } from 'react-grid-system';
-
+import {ButtonToolbar,Button, FormGroup, FormControl} from 'react-bootstrap';
+import './StoreManage.css'
 
 var clickObj;
 var location;
 const customStyles = {
     content : {
       top                   : '25%',
-      left                  : '40%',
+      left                  : '23%',
       right                 : 'auto',
       bottom                : 'auto',
-      marginRight           : '-50%',
       transform             : 'translate(-20%, -20%)',
-      width : '700px',
-      height : '600px'
+      border : '3px solid skyblue',
+      width : '90vw',
+      height : '80vh'
     }
   };
-
 class StoreManage extends Component{
     constructor(props){
         super(props);
@@ -40,9 +40,10 @@ class StoreManage extends Component{
     }
     handleAddress = (data) => {
         console.log(data)
-        let fullAddress = data.address;
-        let extraAddress = ''; 
-        
+        let fullAddress = data['address'];
+        console.log(fullAddress);
+        let extraAddress = '';
+        console.log(fullAddress);
         if (data.addressType === 'R') {
           if (data.bname !== '') {
             extraAddress += data.bname;
@@ -54,17 +55,16 @@ class StoreManage extends Component{
         }
         this.postClose();
         location=data.postcode1+data.postcode2;
-         document.getElementById('address').value=fullAddress;  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    }
-
+        document.getElementById('address').value=fullAddress;  // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+       }
     componentWillMount(){
         console.log("Hi")
-        axios.post('http://localhost:4000/',{
+        axios.post('http://192.168.0.139:4000/',{
             token:window.sessionStorage.getItem('token')
         }).then(res=>{
             console.log(res.data)
             if(res.data){
-                axios.post('http://localhost:4000/storemanage',{
+                axios.post('http://192.168.0.139:4000/storemanage',{
                     token:window.sessionStorage.getItem('token')
                 }).then(res=>{
                     if(res.data.length!==0){
@@ -82,7 +82,6 @@ class StoreManage extends Component{
                             hasStore:false
                         })
                     }
-                    
                 })
             }else{
                 document.location.href="/"
@@ -95,20 +94,20 @@ class StoreManage extends Component{
             this.setState({
                 orderOpen:true,
                 orderList:data
-            })     
+            })
         }else{
             alert("no data")
         }
     }
 
     receiveOrder(){
-        var mystoreId = this.state.item.storeID             
-        var order = io('http://localhost:4000/storemanage');          
+        var mystoreId = this.state.item.storeID
+        var order = io('http://192.168.0.139:4000/storemanage');
         order.on(mystoreId,(data)=>{
             this.receiveData(data)
-        })         
+        })
     }
-    
+
     modalOpen(e){
         this.setState({
             modalOpen:true,
@@ -168,7 +167,7 @@ class StoreManage extends Component{
     addbtn(){
         $('#storemenu').append('<li class="storemenu"><input type="file" name="menuImg" class="menuImg"></input><br/><input type="text" class="key"></input><input type="text" class="value"></input><button type="button" onclick=this.parentElement.remove()>삭제</button></li>')
     }
-    
+
     makeorderList(){
         const temp=this.state.orderList.orderMenu;
         Object.keys(temp).map((item)=>
@@ -192,12 +191,12 @@ class StoreManage extends Component{
             }else{
                 fix[i]=false
                 jsonFormat['img']=JSON.parse(this.state.item.menu)[i].img
-    
+
             }
             array.push(jsonFormat)
         }
     console.log(array)
-    axios.post('http://localhost:4000/storemanage/menu',{
+    axios.post('http://192.168.0.139:4000/storemanage/menu',{
         userId:this.state.userId,
         menu:array,
         postcode:location,
@@ -218,91 +217,156 @@ class StoreManage extends Component{
             if(!this.state.hasStore){
                 has_Store=
                 <div>
-                  
+
                 <button onClick={this.modalOpen.bind(this)}>가게 추가하기</button>
-                
+
                 </div>
             }else{
                 has_Store=
-                <div> 
-                    <div>
+                <div>
+                    <div className="info">
                         <Container>
-                            
+                          <div className="a first">
                                 <Row>
                                     <Col>가게 이름</Col>
-                                    <Col>{item.storename}</Col>
+                                    <Col>{item.storename}</Col><br/><br/>
                                 </Row>
                                 <Row>
                                     <Col>전화번호</Col>
-                                    <Col>{item.tel}</Col>
+                                    <Col>{item.tel}</Col><br/><br/>
                                 </Row>
                                 <Row>
                                     <Col>위치</Col>
-                                    <Col>{item.location}</Col>
+                                    <Col>{item.location}</Col><br/><br/>
                                 </Row>
                                 <Row>
                                     <Col>영업시간</Col>
-                                    <Col>{item.openinghours}</Col>
+                                    <Col>{item.openinghours}</Col><br/><br/>
                                 </Row>
-                                <Row>
-                                    <Col>메뉴</Col>
-                                </Row>
-                                
-                                   {JSON.parse(item.menu).map((food,index)=>
-                                        <Col> 
-                                            <td><img src={require('../asset/images/'+item.userid+"/"+food.img)} alt="" width="100px" height="100px"></img></td>
-                                            <td><p>음식이름 : {food.name}</p>
-                                            <p>가격 : {food.price}</p></td>
-                                        </Col>
-                                    )}
-                                    
                                 <Row>
                                     <Col>설명</Col>
-                                    <Col>{item.description}</Col>
+                                    <Col>{item.description}</Col><br/><br/>
+                                </Row>
+                            </div>
+                            <div className="a">
+                                <Row>
+                                    <Col><h3>Menu</h3></Col>
+                                </Row>
+                                   {JSON.parse(item.menu).map((food,index)=>
+                                        <Col>
+                                            <span className="menuvalue"><img src={require('../asset/images/'+item.userid+"/"+food.img)} alt="" width="100px" height="100px"></img></span>
+                                            <span className="menuvalue">{food.name}</span>
+                                            <span className="menuvalue">{food.price}</span>
+                                        </Col>
+                                    )}
+                              </div>
+                              <div className="a">
+                                <Row>
+                                    <Col><h3>QR코드</h3></Col>
                                 </Row>
                                 <Row>
-                                    <Col>QR코드</Col>
-                                    <Col><img src=' https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=www.naver.com' alt=""></img></Col>
+                                    <Col><img src=' https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ddingdong.gq/menu/1' alt=""></img></Col>
                                 </Row>
+                              </div>
                         </Container>
-                        <button onClick={this.modalOpen.bind(this)} className="modifyStore">수정하기</button>
+                        <button onClick={this.modalOpen.bind(this)} id="modifyStore" className="modifyStore">수정하기</button>
                         <br/>
                     </div>
                 </div>
             }
             return(
                 <div>
-                내 가게 보기 <br/>
+                <h2>Store Profile</h2> <br/>
                 {has_Store}
-                
-                    
                 <Modal isOpen={this.state.modalOpen} onAfterOpen={this.open.bind(this)} ariaHideApp={false} onAfterClose={this.close.bind(this)} style={customStyles}>
-                    <button onClick={this.modalClose.bind(this)} style={{float:"right"}}>X</button>
-                    <form action='http://localhost:4000/storemanage/fix' method='POST' encType='multipart/form-data'>
-                        <p>ID : <input type="text" name="userId" value={this.state.userId}></input></p>
-                        <p>가게이름 : <input type="text" name="storename" ></input></p>
-                        <p>전화번호 : <input type="text" name="storetel"></input></p>
-                        <p>위치 : <button type="button" onClick={this.postOpen.bind(this)} id="storelocation">주소 찾기</button></p>
-                        <p><input type="text" name="address" id="address"></input></p>
-                        <p>영업시간 : <input type="text" name="storetime"></input></p>
-                        <p>분류 : <select name="storecategory">
-                                <option>한식</option>
-                                <option>양식</option>
-                                <option>일식</option>
-                                <option>중식</option>
-                                <option>족발</option>
-                                <option>치킨</option>
-                                <option>분식</option>
-                                <option>피자</option>
-                            </select></p>
-                        메뉴 : <ul id="storemenu" name="storemenu"></ul><button type="button" onClick={this.addbtn.bind(this)}>메뉴 추가</button>
-                        <p>설명 : <input type="text" name="storedesc"></input></p>
+                    <Button id="Button" variant="light" onClick={this.modalClose.bind(this)} style={{float:"right",display:"inline"}}>Close</Button>
+                    <span id="span">Store Profile</span><br/>
+                    <form className="form" action='http://192.168.0.139:4000/storemanage/fix' method='POST' encType='multipart/form-data'>
+                    <p>분류 : <select name="storecategory">
+                            <option>한식</option>
+                            <option>양식</option>
+                            <option>일식</option>
+                            <option>중식</option>
+                            <option>족발</option>
+                            <option>치킨</option>
+                            <option>분식</option>
+                            <option>피자</option>
+                        </select></p>
+                        <FormGroup>
+                          ID :
+                          <FormControl
+                          autoFocus
+                          type="text"
+                          name="userId"
+                          value={this.state.userId}
+                          style={{marginTop: '5px', width: '70%'}}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          가게이름 :
+                          <FormControl
+                          autoFocus
+                          type="text"
+                          name="storename"
+                          style={{marginTop: '5px', width: '70%'}}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          전화번호 :
+                          <FormControl
+                          autoFocus
+                          type="text"
+                          name="storetel"
+                          style={{marginTop: '5px', width: '70%'}}
+                          />
+                        </FormGroup>
+                        <p><Button id="Button" variant="light" type="button" onClick={this.postOpen.bind(this)} id="storelocation">주소 찾기</Button></p>
+                        <FormGroup>
+                          위치 :
+                          <FormControl
+                          autoFocus
+                          type="text"
+                          name="address"
+                          id="address"
+                          style={{marginTop: '5px', width: '70%'}}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          영업시간 :
+                          <FormControl
+                          autoFocus
+                          type="text"
+                          name="storetime"
+                          style={{marginTop: '5px', width: '70%'}}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          설명 :
+                          <FormControl
+                          autoFocus
+                          type="text"
+                          name="storedesc"
+                          style={{marginTop: '5px', width: '70%'}}
+                          />
+                        </FormGroup>
+                        <h6>Menu</h6><br/>
+                        <Button id="Button" variant="light" type="button" onClick={this.addbtn.bind(this)}>메뉴 추가</Button>
+                        <ul id="storemenu" name="storemenu"></ul>
                         <p>메인 사진 : <input type="file" name='mainImg' id='mainImg' accept="image/*"></input></p>
                         <img src="" alt="" name="storeimg" width="150px" height="150px"></img> <br/>
-                        <button type="submit" id="subbtn" name="subbtn" value="수정하기" onClick={this.sendorderList.bind(this)}>수정하기</button>   
+                        <Button
+                          type="submit"
+                          id="subbtn"
+                          name="subbtn"
+                          value="수정하기"
+                          onClick={this.sendorderList.bind(this)}
+                          style={{marginTop: '5px', width: '40%', marginLeft: "30%"}}
+                          className="justify-content-center"
+                        >
+                          수정하기
+                        </Button>
                     </form>
                 </Modal>
-
                 <Modal isOpen={this.state.postOpen}><DaumPostcode onComplete={this.handleAddress} autoClose={true}></DaumPostcode></Modal>
 
                 <Modal isOpen={this.state.orderOpen} onAfterOpen={this.makeorderList.bind(this)}>

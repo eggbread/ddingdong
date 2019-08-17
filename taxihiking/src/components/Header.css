@@ -8,6 +8,32 @@
   width: 40%;
   height: 40%;
 }
+#searchBar {
+  margin-left: -7vw;
+}
+#LogoIcon_two {
+  
+  position: absolute;
+  top: 0;
+  width: 6em;
+  height: 100px;
+  margin-left: 38vw;
+}
+#section_two {
+  background-image: url("../asset/images/backgroundMain.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  width: 100vw;
+  height: 200px;
+}
+@media (max-width: 1200px) {
+  #section_two {
+    width: 100vw;
+    height: 25vh;
+  }
+}
 @media (max-width: 600px) {
   .LogoIcon {
     width: 60%;
@@ -16,6 +42,7 @@
   h5 {
     text-shadow:0 0 4px black;
   }
+  
 }
 .icon{
     position: absolute;
@@ -76,7 +103,7 @@ input{
 .btn-search{
   height: 37.5px;
   margin-top: -1.3px;
-  margin-left: -56px;
+  margin-left: -57px;
   z-index: 1;
 }
 

@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { BrowserRouter as withRouter, Link } from "react-router-dom";
 import { Container, Row, Col } from "react-grid-system";
 import axios from "axios";
-
+import Loader from 'react-loader'
+import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
+import { Table,TableBody,TableCell,TableRow } from '@material-ui/core'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import './List.css'
 class List extends Component {
   constructor(props) {
     super(props);
@@ -11,15 +15,15 @@ class List extends Component {
       storeList: null,
       switch: false
     };
+    
   }
-
   componentWillMount() {
     if (!window.sessionStorage.getItem("location")) {
       alert("주소를 먼저 입력해주세요");
       window.location.href = "/";
     } else {
       axios
-        .post("http://localhost:4000/list", {
+        .post("http://192.168.0.139:4000/list", {
           category: this.props.match.params.category,
           location: window.sessionStorage.getItem("location")
         })
@@ -36,7 +40,7 @@ class List extends Component {
 
   componentWillReceiveProps(next) {
     axios
-      .post("http://localhost:4000/list", {
+      .post("http://192.168.0.139:4000/list", {
         category: next.match.params.category,
         location: window.sessionStorage.getItem("location")
       })
@@ -83,44 +87,35 @@ class List extends Component {
     }
     
     if (!this.state.storeList) {
-      return <div>Loading...</div>;
+      return <Loader/>;
     } else {
       return (
         <div>
-          <Container>
-            <Row>
-              <Col>
-                <Link to={"/list/koreanfood/"}>한식</Link>
-              </Col>
-              <Col>
-                <Link to={"/list/westfood/"}>양식</Link>
-              </Col>
-              <Col>
-                <Link to={"/list/japanfood/"}>일식</Link>
-              </Col>
-              <Col>
-                <Link to={"/list/chinafood/"}>중식</Link>
-              </Col>
-              <Col>
-                <Link to={"/list/chicken/"}>치킨</Link>
-              </Col>
-              <Col>
-                <Link to={"/list/pizza/"}>피자</Link>
-              </Col>
-              <Col>
-                <Link to={"/list/pigfoot/"}>족발&보쌈</Link>
-              </Col>
-              <Col>
-                <Link to={"/list/boon/"}>분식</Link>
-              </Col>
-            </Row>
-          </Container>
-          <h3>근처 {seletedCategory}식당에 대한 검색결과입니다.</h3>
-
-          <Container>
+          
+         <Navbar collapseOnSelect bg="light" expand="lg" style={{borderBottom: '1px solid black', width:'100vw'}}>
+    <Navbar.Brand style={{color: '#60A186', fontWeight:'bold'}}>Category</Navbar.Brand>
+    <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+    <Navbar.Collapse id="responsive-navbar-nav">
+    <Nav className="mr-auto" style={{textAlign:'center'}}>
+      <Nav.Item style={{marginRight:"50px",marginBottom:"10px"}}><Link to={"/list/koreanfood/"} style={{textAlign:'center'}}>한식</Link></Nav.Item>
+      <Nav.Item style={{marginRight:"50px",marginBottom:"10px"}}><Link to={"/list/westfood/"}>양식</Link></Nav.Item>
+      <Nav.Item style={{marginRight:"50px",marginBottom:"10px"}}><Link to={"/list/japanfood/"}>일식</Link></Nav.Item>
+      <Nav.Item style={{marginRight:"50px",marginBottom:"10px"}}><Link to={"/list/chinafood/"}>중식</Link></Nav.Item>
+      <Nav.Item style={{marginRight:"50px",marginBottom:"10px"}}><Link to={"/list/chicken/"}>치킨</Link></Nav.Item>
+      <Nav.Item style={{marginRight:"50px",marginBottom:"10px"}}><Link to={"/list/pizza/"}>피자</Link></Nav.Item>
+      <Nav.Item style={{marginRight:"50px",marginBottom:"10px"}}><Link to={"/list/pigfoot/"}>족발&보쌈</Link></Nav.Item>
+      <Nav.Item style={{marginRight:"50px",marginBottom:"10px"}}><Link to={"/list/boon/"}>분식</Link></Nav.Item>
+    </Nav>
+    </Navbar.Collapse>
+  </Navbar>
+  <br/>
+          <h5>근처 {seletedCategory}식당에 대한 검색결과입니다.</h5>
+  
+          <Table style={{width: '100vw'}}>
+            <TableBody>
             {this.state.storeList.map((item, index) => (
-              <Row key={item.storename}>
-                <Col>
+              <TableRow key={item.storename}>
+                <TableCell>
                   <img
                     src={require("../asset/images/" +
                       item.userid +
@@ -129,16 +124,20 @@ class List extends Component {
                     width="150px"
                     height="80px"
                   />
-                </Col>
-                <Col>
+                </TableCell>
+                <TableCell className="StoreName">
                   <Link to={"/menu/" + item.storeID}>{item.storename}</Link>
-                </Col>
-                <Col>{item.location}</Col>
-                <Col>{item.tel}</Col>
-              </Row>
+                </TableCell>
+              
+                  <TableCell className="listTable"><div>{item.location}</div></TableCell>
+                  <TableCell>{item.tel}</TableCell>
+  
+              </TableRow>
             ))}
-          </Container>
-        </div>
+            </TableBody>
+          </Table>
+          </div>
+        
       );
     }
   }
