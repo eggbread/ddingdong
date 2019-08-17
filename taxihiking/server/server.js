@@ -298,7 +298,7 @@ router.route(app.post('/storemanage/fix',multer_settings.fields([{name:'mainImg'
             }
         }
     }
-    res.redirect("http://localhost:3000/storemanage")
+    res.redirect("http://192.168.0.139:3000/storemanage")
 }))
 
 app.post('/menu/search', (req, res) => {

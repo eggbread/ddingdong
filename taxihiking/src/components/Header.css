@@ -1,23 +1,33 @@
+.IconLink {
+  position: relative;
+
+}
+
 .search{
     display: flex;
     width: 100%;
     justify-content: center;
 
 }
+.MuiTableCell-root{
+  padding: 0;
+}
 .LogoIcon {
   width: 40%;
   height: 40%;
 }
 #searchBar {
-  margin-left: -7vw;
+  /* margin-top: 30px; */
+  top:200px;
+  margin-left: -5vw;
 }
 #LogoIcon_two {
-  
-  position: absolute;
+  float: left;
+  /* position: absolute; */
   top: 0;
-  width: 6em;
-  height: 100px;
-  margin-left: 38vw;
+  width: 6.5em;
+  height: 110px;
+  /* margin-left: 42vw; */
 }
 #section_two {
   background-image: url("../asset/images/backgroundMain.jpg");
@@ -34,7 +44,10 @@
     height: 25vh;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 1050px) {
+  #LogoIcon_two {
+    /* margin-left: 40vw; */
+  }
   .LogoIcon {
     width: 60%;
     height: 60%;
@@ -119,7 +132,7 @@ input{
 }
 
 
-@media(max-width:500px){
+@media(max-width:770px){
     .header_Wrapper{
       background-image: url("../asset/images/backgroundMain.jpg");
       width: 100%;
@@ -142,6 +155,9 @@ input{
     .icon img {
       width : 6rem;
       height : 6rem;
+    }
+    #LogoIcon_two {
+      /* margin-left: 37vw; */
     }
 /*
     #searchInput {

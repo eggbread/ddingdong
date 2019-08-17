@@ -111,26 +111,26 @@ class List extends Component {
   <br/>
           <h5>근처 {seletedCategory}식당에 대한 검색결과입니다.</h5>
   
-          <Table style={{width: '100vw'}}>
+          <Table style={{width: '100vw',padding:"none"}}>
             <TableBody>
             {this.state.storeList.map((item, index) => (
               <TableRow key={item.storename}>
-                <TableCell>
+                <TableCell className="storeList">
                   <img
                     src={require("../asset/images/" +
                       item.userid +
                       "/main.jpg")}
                     alt=""
-                    width="150px"
+                    width="100px"
                     height="80px"
                   />
                 </TableCell>
-                <TableCell className="StoreName">
+                <TableCell className="StoreName storeList" padding="none">
                   <Link to={"/menu/" + item.storeID}>{item.storename}</Link>
                 </TableCell>
               
-                  <TableCell className="listTable"><div>{item.location}</div></TableCell>
-                  <TableCell>{item.tel}</TableCell>
+                  <TableCell className="listTable storeList" padding="none"><div>{item.location}</div></TableCell>
+                  <TableCell  padding="none">{item.tel}</TableCell>
   
               </TableRow>
             ))}

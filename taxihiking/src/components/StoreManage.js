@@ -144,7 +144,7 @@ class StoreManage extends Component{
         if(this.state.addOpen){
             $('[name="storename"]').val(clickObj.storename);
             $('[name="storetel"]').val(clickObj.tel)
-            $('[name="address"]').val(clickObj.location)
+            // $('[name="address"]').val(clickObj.location)
             $('#storemenu').append(JSON.parse(clickObj.menu).map((item,index)=>
                 '<li><img width="150px" height="150px"src='+require('../asset/images/'+clickObj.userid+"/"+item.img)+'></img><input type="file" name="menuImg" class="menuImg"></input><br/><input value="'+item.name+'" class="key"></input>  <input value="'+item.price+'" class="value"></input><button type="button" class="removebtn"  onclick=this.parentElement.remove()>삭제</button></button></li>'))
             $('[name="storetime"]').val(clickObj.openinghours)
@@ -329,6 +329,7 @@ class StoreManage extends Component{
                           name="address"
                           id="address"
                           style={{marginTop: '5px', width: '70%'}}
+                          required
                           />
                         </FormGroup>
                         <FormGroup>

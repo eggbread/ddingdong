@@ -4,8 +4,9 @@ import Search from "../asset/images/search.png";
 import $ from "jquery";
 import { BrowserRouter as withRouter, Link } from "react-router-dom";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
-import { Button } from 'react-bootstrap';
+import { Button, Image } from 'react-bootstrap';
 import './Header.css';
+
 
 class Header extends Component {
   constructor(props) {
@@ -63,22 +64,16 @@ class Header extends Component {
         height:"200px"
       }
       return (
-        <section class="d-flex align-items-center" id="section_two" style={{width:'100vw', height:'200px'}}>
-           <Link to="/"><img src={Icon} alt="DDing Dong" id="LogoIcon_two"/></Link>
+        <section class="d-flex align-items-center" id="section_two">
+           <Link to="/" className="IconLink"> <Image id="LogoIcon_two" src={ Icon } width="100px" height="100px"/> </Link>
           <div class="container">
               <div class="row d-flex justify-content-center">
                   <div class="col-md-12">
                       <div class="slider-title_box">
-                          <div class="row">
-                              <div class="col-md-12">
-                                  <div class="slider-content_wrap">
-                                      
-                                  </div>
-                              </div>
-                          </div>
+      
                           <div class="row d-flex justify-content-center">
                               <div class="col-md-10">
-                                  <form className="form-wrap mt-4" id="searchBar" >
+                                  <form className="form-wrap" id="searchBar" >
                                   
                                   <div className="search justify-content-center">
                                   

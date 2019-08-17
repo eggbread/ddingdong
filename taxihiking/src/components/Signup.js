@@ -1,5 +1,8 @@
 import React,{Component} from 'react';
 import axios from 'axios';
+import './Signup.css';
+import {ButtonToolbar, Button, FormGroup, FormControl} from 'react-bootstrap';
+
 
 class Signup extends Component{
     sendUserData(){
@@ -32,37 +35,63 @@ class Signup extends Component{
   }
     render(){
         return(
-            <div>
-                <span>
-                Sign Up
-              </span>
-              <div>
-                <input className="name" id="id" type="text" name="username" placeholder="ID를 입력해주세요"></input>
-              </div>
-              <div>
-                <input className="name" id="password" type="password" name="username" placeholder="비밀번호를 입력해주세요"></input>
-              </div>
-              <div>
-                <input className="name" id="name" type="text" name="username" placeholder="이름을 입력해주세요"></input>
-              </div>
-             
-        
-              
-              <div>
-                <input className="input100" pattern="(010)-\d{3,4}-\d{4}" type="text" id="phone" placeholder="Phonenumber"></input>
-              </div>
-              <div>
-                <input className="name" id="birth" type="date" name="username"></input>
-              </div>
+          <div className="SignupForm Login" style={{margin:'10px 0 10px 0'}}>
+          
+          <br/>
 
+          <h2> Sign up </h2>
+          <br/>
+          <br/>
+  <form>
+    <FormGroup controlId="id" bsSize="large">
+      <label>ID</label>
+      <FormControl
+        type="id"
+        id="id"
+      />
+    </FormGroup>
+    <FormGroup controlId="password" bsSize="large">
+      <label>Password</label>
+      <FormControl
+        id="password"
+        type="password"
+      />
+    </FormGroup>
+    <FormGroup controlId="text" bsSize="large">
+      <label>Name</label>
+      <FormControl
+        type="text"
+        id="name"
+      />
+    </FormGroup>
+    <FormGroup controlId="number" bsSize="large">
+      <label>Phone Number</label>
+      <FormControl
+        type="number"
+        id="phone"
+        pattern="(010)-\d{3,4}-\d{4}"
+      />
+    </FormGroup>
+    <FormGroup controlId="date" bsSize="large">
 
-
-              <div className="container-login100-form-btn">
-                <button className="login100-form-btn" onClick={this.sendUserData}>
-                  SignUp
-                </button>
-              </div>
-            </div>
+      <label>Birth</label>
+      <FormControl
+        type="date"
+        id="birth"
+      />
+    </FormGroup>
+      <br/>
+    <Button
+      block
+      bsSize="large"
+      type="submit"
+      onClick={this.sendUserData}
+    >
+      Sign up
+    </Button>
+    <br/>
+  </form>
+</div>
         );
     }
 }
