@@ -21,7 +21,7 @@ class Menu extends Component {
 
   componentWillMount() {
     axios
-      .post("http://192.168.0.139:4000/menu", {
+      .post("http://localhost:4000/menu", {
         storeID: this.state.storeID
       })
       .then(res => {
@@ -33,7 +33,7 @@ class Menu extends Component {
       })
       .then(() => {
         axios
-          .post("http://192.168.0.139:4000/menu/search", {
+          .post("http://localhost:4000/menu/search", {
             data: this.state.item.storename + "후기"
           })
           .then(res => {

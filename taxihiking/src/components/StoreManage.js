@@ -59,12 +59,12 @@ class StoreManage extends Component{
        }
     componentWillMount(){
         console.log("Hi")
-        axios.post('http://192.168.0.139:4000/',{
+        axios.post('http://localhost:4000/',{
             token:window.sessionStorage.getItem('token')
         }).then(res=>{
             console.log(res.data)
             if(res.data){
-                axios.post('http://192.168.0.139:4000/storemanage',{
+                axios.post('http://localhost:4000/storemanage',{
                     token:window.sessionStorage.getItem('token')
                 }).then(res=>{
                     if(res.data.length!==0){
@@ -102,7 +102,7 @@ class StoreManage extends Component{
 
     receiveOrder(){
         var mystoreId = this.state.item.storeID
-        var order = io('http://192.168.0.139:4000/storemanage');
+        var order = io('http://localhost:4000/storemanage');
         order.on(mystoreId,(data)=>{
             this.receiveData(data)
         })
@@ -196,7 +196,7 @@ class StoreManage extends Component{
             array.push(jsonFormat)
         }
     console.log(array)
-    axios.post('http://192.168.0.139:4000/storemanage/menu',{
+    axios.post('http://localhost:4000/storemanage/menu',{
         userId:this.state.userId,
         menu:array,
         postcode:location,
@@ -281,7 +281,7 @@ class StoreManage extends Component{
                 <Modal isOpen={this.state.modalOpen} onAfterOpen={this.open.bind(this)} ariaHideApp={false} onAfterClose={this.close.bind(this)} style={customStyles}>
                     <Button id="Button" variant="light" onClick={this.modalClose.bind(this)} style={{float:"right",display:"inline"}}>Close</Button>
                     <span id="span">Store Profile</span><br/>
-                    <form className="form" action='http://192.168.0.139:4000/storemanage/fix' method='POST' encType='multipart/form-data'>
+                    <form className="form" action='http://localhost:4000/storemanage/fix' method='POST' encType='multipart/form-data'>
                     <p>분류 : <select name="storecategory">
                             <option>한식</option>
                             <option>양식</option>

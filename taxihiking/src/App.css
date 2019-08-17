@@ -6,7 +6,7 @@ a{
 .App {
   text-align: center;
   height: 100%;
-  /* font-family: '' */
+  font-family: 'Jua', sans-serif;
 }
 .body{
   text-align: -webkit-center;
@@ -297,7 +297,7 @@ Link{
  .slider-content_wrap h5 {
    color: #909090;
    font-weight: 400;
-   margin: 24px 0; }
+   }
 
  @media (max-width: 480px) {
    .form-wrap {

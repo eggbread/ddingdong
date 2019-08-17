@@ -16,11 +16,8 @@ class Footer extends Component{
                                 <div class="copyright">
                                         <p>Copyright &copy; 김경민, 김정우, 정민우, 정태용<br/>
                                                대전광역시 유성구 대학로 99 공5호관 306호</p>
-                                        <ul>
-                                             <ButtonToolbar>
-                                                <Button variant="Link"  className="login100-form-btn"><Link to="/signin">사장님페이지</Link></Button>
-                                             </ButtonToolbar>
-                                        </ul>
+                                               <Button variant="Link"  className="login100-form-btn"><Link to="/signin">사장님페이지</Link></Button>
+                                        
                                 </div>
                             </div>
                         </div>

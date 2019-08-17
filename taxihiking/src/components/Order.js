@@ -45,14 +45,14 @@ class Order extends Component{
                 }
             })
             console.log(orderList.orderMenu[0])
-            // axios.post('http://192.168.0.139:4000/order',{
+            // axios.post('http://localhost:4000/order',{
             //     order:orderList.orderMenu,
             //     store:this.state.item.storename
             // }).then(res=>{
             //     console.log(res)
             // })
 
-            const socket = io('http://192.168.0.139:4000/storemanage', { transports: ['websocket']});
+            const socket = io('http://localhost:4000/storemanage', { transports: ['websocket']});
             socket.emit('order message',{
                 storeID:this.state.item.storeID,
                 order:orderList
