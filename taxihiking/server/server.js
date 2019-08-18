@@ -8,9 +8,9 @@ const multer =require('multer');
 const fs = require('fs');
 var https = require('https');
 
-process.setMaxListeners(20);
+process.setMaxListeners(0);
 const connection = mysql.createConnection({
-    host:"13.125.117.85",
+    host:"34.97.84.97",
     user:'root',
     password:'maxim1658',
     port:'3306',
@@ -181,10 +181,9 @@ router.route(app.post('/menu',(req,res)=>{
     })
     
 }))
-
+var server=app.listen(4000);
+var io = require('socket.io').listen(server);
 router.route(app.post('/storemanage',(req,res)=>{
-    console.log("come")
-    var io = require('socket.io').listen(server);
     var order = io.of('/storemanage').on('connection',function(socket){
         console.log("HiSocket")
 
@@ -192,7 +191,10 @@ router.route(app.post('/storemanage',(req,res)=>{
             console.log(data)
             var storeId = socket.storeID = data.storeID;
             order.emit(storeId,data.order);
-        })
+        });
+        socket.onclose = function(){
+           socketstate = 0
+        };
     })
     var token = jwt.verify(req.body.token,'ddingdong');
     var sql = 'select * from store where userid like "'+token.id+'"';
@@ -333,6 +335,3 @@ app.post('/menu/search', (req, res) => {
 
 
 
-var server=app.listen(4000,()=>{
-    console.log('Express app listening on port 4000');
-});

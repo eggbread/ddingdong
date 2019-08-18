@@ -114,25 +114,23 @@ class Signin extends Component {
       );
     } else {
       componentLogin = (
-        <div>
-          {/* <div className="icon">
-            <Link to="/">
-              <img src={Icon} className="LogoIcon" alt="mark" />
-            </Link>
-          </div> */}
+        <div className="SigninForm">
           <br />
           <br />
           <h2> Log in </h2>
           <br />
           <br />
-          
+          <div className="form">
             <FormGroup>
               <label>ID</label>
-              <FormControl autoFocus type="id" id="id_Input" />
+              <FormControl 
+              autoFocus 
+              type="id" id="id_Input" 
+              />
             </FormGroup>
             <FormGroup>
               <label>Password</label>
-              <FormControl id="password_Input" type="password" />
+              <FormControl onKeyDown={this.keyPress} id="password_Input" type="password" />
             </FormGroup>
             <br />
             <Button block type="submit" onClick={this.receiveUserData}>
@@ -142,8 +140,7 @@ class Signin extends Component {
           <Button
             block
             className="ownerSignUpButton"
-            style={{ marginTop: "5px", width: "70%" }}
-          >
+            >
             <Link
               to="/signup"
               className="ownerSignUpButton"
@@ -152,6 +149,7 @@ class Signin extends Component {
               <span style={{ color: "white" }}>사장님 회원가입</span>
             </Link>
           </Button>
+          </div>
         </div>
       );
     }

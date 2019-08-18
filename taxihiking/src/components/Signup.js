@@ -42,12 +42,13 @@ class Signup extends Component{
           <h2> Sign up </h2>
           <br/>
           <br/>
-  
+  <div className="form">
     <FormGroup controlId="id" bsSize="large">
       <label>ID</label>
       <FormControl
         type="id"
         id="id"
+        
       />
     </FormGroup>
     <FormGroup controlId="password" bsSize="large">
@@ -55,6 +56,7 @@ class Signup extends Component{
       <FormControl
         id="password"
         type="password"
+        
       />
     </FormGroup>
     <FormGroup controlId="text" bsSize="large">
@@ -62,6 +64,7 @@ class Signup extends Component{
       <FormControl
         type="text"
         id="name"
+        
       />
     </FormGroup>
     <FormGroup controlId="number" bsSize="large">
@@ -69,6 +72,7 @@ class Signup extends Component{
       <FormControl
         type="number"
         id="phone"
+        
         pattern="(010)-\d{3,4}-\d{4}"
       />
     </FormGroup>
@@ -90,7 +94,7 @@ class Signup extends Component{
       Sign up
     </Button>
     <br/>
-
+    </div>
 </div>
         );
     }

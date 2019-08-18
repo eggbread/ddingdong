@@ -51,12 +51,9 @@ class Order extends Component{
             // }).then(res=>{
             //     console.log(res)
             // })
-            var soc = {
-                response:false,
-                endpoint:'http://13.125.117.85:4000/storemanage'
-            }
-            const socket = io('http://13.125.117.85:4000/storemanage');
-            debugger
+           
+            const socket = io('http://13.125.117.85:4000/storemanage', {transports:['websocket']});
+   
             socket.emit('order message',{
                 storeID:this.state.item.storeID,
                 order:orderList

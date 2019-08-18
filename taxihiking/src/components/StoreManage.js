@@ -5,8 +5,10 @@ import  Modal from "react-modal";
 import DaumPostcode from 'react-daum-postcode'
 import $ from 'jquery'
 import io from 'socket.io-client'
-import { Container, Row, Col } from 'react-grid-system';
+import { Container, Row } from 'react-grid-system';
 import {ButtonToolbar,Button, FormGroup, FormControl} from 'react-bootstrap';
+import { Table,TableBody,TableCell,TableRow } from '@material-ui/core'
+
 import './StoreManage.css'
 
 var clickObj;
@@ -18,9 +20,10 @@ const customStyles = {
       right                 : 'auto',
       bottom                : 'auto',
       transform             : 'translate(-20%, -20%)',
-      border : '3px solid skyblue',
+      border : '3px solid #60A186',
       width : '90vw',
-      height : '80vh'
+      height : '80vh',
+      textAlign:"center"
     }
   };
 class StoreManage extends Component{
@@ -224,52 +227,63 @@ class StoreManage extends Component{
             }else{
                 has_Store=
                 <div>
-                    <div className="info">
-                        <Container>
-                          <div className="a first">
-                                <Row>
-                                    <Col>가게 이름</Col>
-                                    <Col>{item.storename}</Col><br/><br/>
-                                </Row>
-                                <Row>
-                                    <Col>전화번호</Col>
-                                    <Col>{item.tel}</Col><br/><br/>
-                                </Row>
-                                <Row>
-                                    <Col>위치</Col>
-                                    <Col>{item.location}</Col><br/><br/>
-                                </Row>
-                                <Row>
-                                    <Col>영업시간</Col>
-                                    <Col>{item.openinghours}</Col><br/><br/>
-                                </Row>
-                                <Row>
-                                    <Col>설명</Col>
-                                    <Col>{item.description}</Col><br/><br/>
-                                </Row>
+                    <div  className="orderform">
+                        <Table>
+                            <TableBody>
+                          <div>
+                                <TableRow>
+                                    <TableCell>가게 이름</TableCell>
+                                    <TableCell>{item.storename}</TableCell><br/><br/>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>전화번호</TableCell>
+                                    <TableCell>{item.tel}</TableCell><br/><br/>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>위치</TableCell>
+                                    <TableCell>{item.location}</TableCell><br/><br/>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>영업시간</TableCell>
+                                    <TableCell>{item.openinghours}</TableCell><br/><br/>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>설명</TableCell>
+                                    <TableCell>{item.description}</TableCell><br/><br/>
+                                </TableRow>
                             </div>
-                            <div className="a">
-                                <Row>
-                                    <Col><h3>Menu</h3></Col>
-                                </Row>
+                            <div>
+                                <TableRow>
+                                    <TableCell><h3>Menu</h3></TableCell>
+                                </TableRow>
                                    {JSON.parse(item.menu).map((food,index)=>
-                                        <Col>
-                                            <span className="menuvalue"><img src={require('../asset/images/'+item.userid+"/"+food.img)} alt="" width="100px" height="100px"></img></span>
-                                            <span className="menuvalue">{food.name}</span>
-                                            <span className="menuvalue">{food.price}</span>
-                                        </Col>
+                                   <TableRow>
+                                        <TableCell>
+                                            <span ><img src={require('../asset/images/'+item.userid+"/"+food.img)} alt="" width="100px" height="100px"></img></span>
+                                        </TableCell>
+                                        <TableCell>
+                                            <span >{food.name}</span>
+                                            </TableCell>
+                                            <TableCell>
+                                            <span>{food.price}</span>
+                                            </TableCell>
+                                        </TableRow>
                                     )}
                               </div>
-                              <div className="a">
-                                <Row>
-                                    <Col><h3>QR코드</h3></Col>
-                                </Row>
-                                <Row>
-                                    <Col><img src={' https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ddingdong.gq/menu/'+item.storeID} alt=""></img></Col>
-                                </Row>
+                              <div>
+                                <TableRow>
+                                    <TableCell><h3>QR코드</h3></TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell><img src={' https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ddingdong.gq/menu/'+item.storeID} alt=""></img></TableCell>
+                                </TableRow>
                               </div>
-                        </Container>
-                        <button onClick={this.modalOpen.bind(this)} id="modifyStore" className="modifyStore">수정하기</button>
+                        <TableRow><TableCell>
+                        <button onClick={this.modalOpen.bind(this)} className="modifyStore">수정하기</button>
+                        </TableCell>
+                        </TableRow>
+                              </TableBody>
+                        </Table>
                         <br/>
                     </div>
                 </div>
@@ -361,8 +375,9 @@ class StoreManage extends Component{
                           name="subbtn"
                           value="수정하기"
                           onClick={this.sendorderList.bind(this)}
-                          style={{marginTop: '5px', width: '40%', marginLeft: "30%"}}
-                          className="justify-content-center"
+                        //   style={{marginTop: '5px', width: '40%', marginLeft: "30%"}}
+                        //   className="justify-content-center"
+                          variant="warning"
                         >
                           수정하기
                         </Button>
@@ -370,7 +385,7 @@ class StoreManage extends Component{
                 </Modal>
                 <Modal isOpen={this.state.postOpen}><DaumPostcode onComplete={this.handleAddress} autoClose={true}></DaumPostcode></Modal>
 
-                <Modal isOpen={this.state.orderOpen} onAfterOpen={this.makeorderList.bind(this)}>
+                <Modal isOpen={this.state.orderOpen} onAfterOpen={this.makeorderList.bind(this)} style={customStyles}>
                     <button onClick={this.modalClose.bind(this)} style={{float:"right"}}>X</button>
                     <h1>주문이 도착하였습니다</h1>
                     <p>{this.state.orderList.tableNumber}번 테이블에서 주문이 도착하였습니다.</p>

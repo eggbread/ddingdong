@@ -1,8 +1,12 @@
 .orderform{
-    border : 3px solid skyblue;
+    border : 3px solid #60A186;
     justify-content: center;
     width: 50%;
     padding: 40px;
+    /* background-image: url('../asset/images/order.png'); */
+    box-shadow: 0 0 10px #60A186;
+    margin:30px auto;
+    text-align: center;
   }
 
 .menu_Many{
