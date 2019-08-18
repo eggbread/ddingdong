@@ -19,7 +19,7 @@ class Signin extends Component {
       this.receiveUserData();
     }
   }
-  componentDidMount() {
+  componentWillMount() {
     // fetch('http://localhost:4000/',{
     //   method:"POST"
     // }).then(res=>{
@@ -30,6 +30,8 @@ class Signin extends Component {
         token: window.sessionStorage.getItem("token")
       })
       .then(res => {
+        debugger
+        console.log(res)
         if (res.data) {
           this.setState({
             isLogin: res.data
@@ -52,13 +54,16 @@ class Signin extends Component {
   receiveUserData() {
     var id = document.getElementById("id_Input").value;
     var password = document.getElementById("password_Input").value;
+    debugger
     axios
       .post("http://localhost:4000/signin", {
         id: id,
         password: password
       })
       .then(res => {
+        debugger
         if (res.status === 200) {
+          debugger
           var data = res.data;
           console.log(data);
           window.sessionStorage.setItem("token", data.token);
@@ -109,21 +114,18 @@ class Signin extends Component {
       );
     } else {
       componentLogin = (
-        <div
-          className="SigninForm Login"
-          style={{ margin: "10px 0 10px 0" }}
-        >
-          <div className="icon">
+        <div>
+          {/* <div className="icon">
             <Link to="/">
               <img src={Icon} className="LogoIcon" alt="mark" />
             </Link>
-          </div>
+          </div> */}
           <br />
           <br />
           <h2> Log in </h2>
           <br />
           <br />
-          <form>
+          
             <FormGroup>
               <label>ID</label>
               <FormControl autoFocus type="id" id="id_Input" />
@@ -136,7 +138,7 @@ class Signin extends Component {
             <Button block type="submit" onClick={this.receiveUserData}>
               Login
             </Button>
-          </form>
+          
           <Button
             block
             className="ownerSignUpButton"
@@ -155,11 +157,11 @@ class Signin extends Component {
     }
     return (
       <div>
-        <span className="login100-form-logo">
+        {/* <span className="login100-form-logo">
           <i className="zmdi zmdi-landscape" />
-        </span>
+        </span> */}
 
-        <div className="container-login100-form-btn">
+        <div>
           {/* <button className="login100-form-btn" onClick={this.receiveUserData}>
             Login
           </button> */}

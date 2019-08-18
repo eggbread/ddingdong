@@ -139,6 +139,7 @@ router.route(app.post('/signup',(req,res)=>{
 }));
 
 app.post('/signin',(req,res)=>{
+    console.log(res)
     var data = req.body;
     var sql = 'select (id),(password) from user where id like "'+data.id+'"';
     let isLogin;
@@ -164,6 +165,8 @@ app.post('/signin',(req,res)=>{
                         isLogin="pass"//비밀번호 오류
                 }
             }
+            console.log("This is Signin")
+            console.log(isLogin)
             res.send(isLogin)
         })
 
@@ -298,7 +301,7 @@ router.route(app.post('/storemanage/fix',multer_settings.fields([{name:'mainImg'
             }
         }
     }
-    res.redirect("http://192.168.0.139:3000/storemanage")
+    res.redirect("http://localhost:3000/storemanage")
 }))
 
 app.post('/menu/search', (req, res) => {

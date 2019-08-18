@@ -42,7 +42,7 @@ class Signup extends Component{
           <h2> Sign up </h2>
           <br/>
           <br/>
-  <form>
+  
     <FormGroup controlId="id" bsSize="large">
       <label>ID</label>
       <FormControl
@@ -90,7 +90,7 @@ class Signup extends Component{
       Sign up
     </Button>
     <br/>
-  </form>
+
 </div>
         );
     }
