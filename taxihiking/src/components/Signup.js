@@ -15,7 +15,7 @@ class Signup extends Component{
       var data = {id:id, password:password, name:name,phone:phone,birth:birth};
        var obj = JSON.stringify(data);
        console.log(JSON.parse(obj));
-      axios.post('http://localhost:4000/signup',{
+      axios.post('http://13.125.117.85:4000/signup',{
         id : id,
         password:password,
         name:name,

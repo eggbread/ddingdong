@@ -23,7 +23,7 @@ class List extends Component {
       window.location.href = "/";
     } else {
       axios
-        .post("http://localhost:4000/list", {
+        .post("http://13.125.117.85:4000/list", {
           category: this.props.match.params.category,
           location: window.sessionStorage.getItem("location")
         })
@@ -40,7 +40,7 @@ class List extends Component {
 
   componentWillReceiveProps(next) {
     axios
-      .post("http://localhost:4000/list", {
+      .post("http://13.125.117.85:4000/list", {
         category: next.match.params.category,
         location: window.sessionStorage.getItem("location")
       })

@@ -20,13 +20,13 @@ class Signin extends Component {
     }
   }
   componentWillMount() {
-    // fetch('http://localhost:4000/',{
+    // fetch('http://13.125.117.85:4000/',{
     //   method:"POST"
     // }).then(res=>{
     //   console.log(res)
     // })
     axios
-      .post("http://localhost:4000/", {
+      .post("http://13.125.117.85:4000/", {
         token: window.sessionStorage.getItem("token")
       })
       .then(res => {
@@ -56,7 +56,7 @@ class Signin extends Component {
     var password = document.getElementById("password_Input").value;
     debugger
     axios
-      .post("http://localhost:4000/signin", {
+      .post("http://13.125.117.85:4000/signin", {
         id: id,
         password: password
       })

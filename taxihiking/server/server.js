@@ -10,7 +10,7 @@ var https = require('https');
 
 process.setMaxListeners(20);
 const connection = mysql.createConnection({
-    host:"localhost",
+    host:"13.125.117.85",
     user:'root',
     password:'maxim1658',
     port:'3306',
@@ -165,7 +165,7 @@ app.post('/signin',(req,res)=>{
                         isLogin="pass"//비밀번호 오류
                 }
             }
-            console.log("This is Signin")
+            console.log("This is")
             console.log(isLogin)
             res.send(isLogin)
         })
@@ -186,7 +186,8 @@ router.route(app.post('/storemanage',(req,res)=>{
     console.log("come")
     var io = require('socket.io').listen(server);
     var order = io.of('/storemanage').on('connection',function(socket){
-        console.log("Hi")
+        console.log("HiSocket")
+
         socket.on('order message',function(data){
             console.log(data)
             var storeId = socket.storeID = data.storeID;
@@ -301,7 +302,7 @@ router.route(app.post('/storemanage/fix',multer_settings.fields([{name:'mainImg'
             }
         }
     }
-    res.redirect("http://localhost:3000/storemanage")
+    res.redirect("http://ddingdong.gq/storemanage")
 }))
 
 app.post('/menu/search', (req, res) => {
