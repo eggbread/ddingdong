@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import $ from "jquery";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as withRouter, Link } from "react-router-dom";
 import { ButtonToolbar, Button, FormGroup, FormControl } from "react-bootstrap";
 import "./Signin.css";
-import Icon from "../asset/images/icon2.png";
 
 class Signin extends Component {
   constructor(props) {
@@ -20,18 +19,13 @@ class Signin extends Component {
     }
   }
   componentWillMount() {
-    // fetch('http://13.125.117.85:4000/',{
-    //   method:"POST"
-    // }).then(res=>{
-    //   console.log(res)
-    // })
     axios
-      .post("http://13.125.117.85:4000/", {
+      .post("http://localhost:4000/", {
         token: window.sessionStorage.getItem("token")
       })
       .then(res => {
-        debugger
-        console.log(res)
+        debugger;
+        console.log(res);
         if (res.data) {
           this.setState({
             isLogin: res.data
@@ -54,16 +48,16 @@ class Signin extends Component {
   receiveUserData() {
     var id = document.getElementById("id_Input").value;
     var password = document.getElementById("password_Input").value;
-    debugger
+    debugger;
     axios
-      .post("http://13.125.117.85:4000/signin", {
+      .post("http://localhost:4000/signin", {
         id: id,
         password: password
       })
       .then(res => {
-        debugger
+        debugger;
         if (res.status === 200) {
-          debugger
+          debugger;
           var data = res.data;
           console.log(data);
           window.sessionStorage.setItem("token", data.token);
@@ -123,50 +117,35 @@ class Signin extends Component {
           <div className="form">
             <FormGroup>
               <label>ID</label>
-              <FormControl 
-              autoFocus 
-              type="id" id="id_Input" 
-              />
+              <FormControl autoFocus type="id" id="id_Input" />
             </FormGroup>
             <FormGroup>
               <label>Password</label>
-              <FormControl onKeyDown={this.keyPress} id="password_Input" type="password" />
+              <FormControl
+                onKeyDown={this.keyPress}
+                id="password_Input"
+                type="password"
+              />
             </FormGroup>
             <br />
             <Button block type="submit" onClick={this.receiveUserData}>
               Login
             </Button>
-          
-          <Button
-            block
-            className="ownerSignUpButton"
-            >
-            <Link
-              to="/signup"
-              className="ownerSignUpButton"
-              style={{ textDecoration: "none" }}
-            >
-              <span style={{ color: "white" }}>사장님 회원가입</span>
-            </Link>
-          </Button>
+
+            <Button block className="ownerSignUpButton">
+              <Link
+                to="/signup"
+                className="ownerSignUpButton"
+                style={{ textDecoration: "none" }}
+              >
+                <span style={{ color: "white" }}>사장님 회원가입</span>
+              </Link>
+            </Button>
           </div>
         </div>
       );
     }
-    return (
-      <div>
-        {/* <span className="login100-form-logo">
-          <i className="zmdi zmdi-landscape" />
-        </span> */}
-
-        <div>
-          {/* <button className="login100-form-btn" onClick={this.receiveUserData}>
-            Login
-          </button> */}
-          {componentLogin}
-        </div>
-      </div>
-    );
+    return <div>{componentLogin}</div>;
   }
 }
 export default Signin;

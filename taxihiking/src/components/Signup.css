@@ -1,11 +1,12 @@
 .SignupForm {
-    margin: auto;
-    margin-top: 100px;
-    width: 600px;
-    height: auto;
-    border: 3px solid skyblue;
-    border-radius: 10px;
-  }
-.form{
+  margin: auto;
+  margin-top: 100px;
+  width: 600px;
+  height: auto;
+  border: 3px solid skyblue;
+  border-radius: 10px;
+}
+
+.form {
   width: 70%;
 }

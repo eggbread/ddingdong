@@ -1,14 +1,16 @@
-table,td{
+table,
+td {
 
     text-align: -webkit-center;
     border-collapse: collapse;
 }
-table{
-    width:500px;
+
+table {
+    width: 500px;
     height: 250px;
 }
 
-#list{
+#list {
     text-align: -webkit-center;
     margin-top: 50px;
     border-style: none;

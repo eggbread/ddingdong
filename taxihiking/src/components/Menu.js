@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as withRouter, Link } from "react-router-dom";
 import axios from "axios";
 import { HorizontalBar } from "react-chartjs-2";
-import Loader from 'react-loader'
-import {Button} from 'react-bootstrap';
-import './Menu.css'
-import { Table,TableBody,TableCell,TableRow } from '@material-ui/core'
+import Loader from "react-loader";
+import { Button } from "react-bootstrap";
+import "./Menu.css";
+import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
 
 class Menu extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class Menu extends Component {
 
   componentWillMount() {
     axios
-      .post("http://13.125.117.85:4000/menu", {
+      .post("http://localhost:4000/menu", {
         storeID: this.state.storeID
       })
       .then(res => {
@@ -33,7 +33,7 @@ class Menu extends Component {
       })
       .then(() => {
         axios
-          .post("http://13.125.117.85:4000/menu/search", {
+          .post("http://localhost:4000/menu/search", {
             data: this.state.item.storename + "후기"
           })
           .then(res => {
@@ -41,19 +41,19 @@ class Menu extends Component {
               crawling: res.data,
               postReady: true
             });
-            console.log(res);
           });
       });
   }
   render() {
-    if (!this.state.isLoaded||!this.state.postReady) {
+    if (!this.state.isLoaded || !this.state.postReady) {
       return (
-      <div style={{height:"300px"}}><Loader/></div>
+        <div style={{ height: "300px" }}>
+          <Loader />
+        </div>
       );
     } else {
       var temp = parseInt(0);
       var data = JSON.parse(this.state.item.menu);
-      console.log(data)
       for (var i in data) {
         temp += parseInt(data[i].click);
       }
@@ -64,7 +64,8 @@ class Menu extends Component {
             label: "인기메뉴",
             fill: true,
             lineTension: 0.1,
-            backgroundColor:  '#'+ Math.round(Math.random()*0xffffff).toString(16),
+            backgroundColor:
+              "#" + Math.round(Math.random() * 0xffffff).toString(16),
             //막대기
             borderColor: "rgba(75,192,192,1)", //인기메뉴 옆에 메뉴 보더
             borderCapStyle: "butt",
@@ -84,10 +85,9 @@ class Menu extends Component {
           }
         ]
       };
-      
+
       return (
         <div>
-          {/* <img src={require("../asset/images/eggbread/4/1.jpg")} alt="menu" height="400px"></img> */}
           <div className="menu_storeName">
             <h1>{this.state.item.storename}</h1>
             <img
@@ -108,7 +108,7 @@ class Menu extends Component {
               </TableRow>
               {data.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell style={{width: '200px'}}>
+                  <TableCell style={{ width: "200px" }}>
                     <img
                       src={require("../asset/images/" +
                         this.state.item.userid +
@@ -118,10 +118,7 @@ class Menu extends Component {
                       className="MenuImg"
                     />
                   </TableCell>
-                  <TableCell>
-                    {item.name}
-                    
-                  </TableCell>
+                  <TableCell>{item.name}</TableCell>
                   <TableCell>{item.price}</TableCell>
                 </TableRow>
               ))}
@@ -134,50 +131,54 @@ class Menu extends Component {
               options={{ maintainAspectRatio: false }}
             />
           </div>
-         
-            <Table className="posting">
-              <TableBody>
-                {this.state.crawling.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      <img
-                        src={item.image}
-                        width="100px"
-                        height="100px"
-                        alt=""
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <h4>
-                        <a href={item.link}>{item.title}</a>
-                      </h4>
-                      {item.passage}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          
+
+          <Table className="posting">
+            <TableBody>
+              {this.state.crawling.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <img src={item.image} width="100px" height="100px" alt="" />
+                  </TableCell>
+                  <TableCell>
+                    <h4>
+                      <a href={item.link}>{item.title}</a>
+                    </h4>
+                    {item.passage}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+
           <div>
             <Table className="storeData">
               <TableBody>
                 <TableRow>
-                <TableCell>전화번호 : </TableCell><TableCell>{this.state.item.tel}</TableCell>
+                  <TableCell>전화번호 : </TableCell>
+                  <TableCell>{this.state.item.tel}</TableCell>
                 </TableRow>
                 <TableRow>
-                <TableCell>위치 : </TableCell><TableCell>{this.state.item.location}</TableCell>
+                  <TableCell>위치 : </TableCell>
+                  <TableCell>{this.state.item.location}</TableCell>
                 </TableRow>
                 <TableRow>
-                <TableCell>영업시간 : </TableCell><TableCell>{this.state.item.openinghours}</TableCell>
+                  <TableCell>영업시간 : </TableCell>
+                  <TableCell>{this.state.item.openinghours}</TableCell>
                 </TableRow>
                 <TableRow>
-                <TableCell>가게 설명 : </TableCell><TableCell>{this.state.item.description}</TableCell>
+                  <TableCell>가게 설명 : </TableCell>
+                  <TableCell>{this.state.item.description}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </div>
           <div className="orderBtn">
-            <img src={require("../asset/images/pointer.png")} alt="" width="40px" height="40px"></img>
+            <img
+              src={require("../asset/images/pointer.png")}
+              alt=""
+              width="40px"
+              height="40px"
+            />
             <Button variant="warning" className="order_btn">
               <Link to={this.state.item.storeID + "/order"}>주문 하기</Link>
             </Button>

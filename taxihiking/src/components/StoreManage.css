@@ -1,83 +1,100 @@
-.first{
+.first {
   /* border: 3px solid; */
   /* padding: 60px; */
   margin: 30px;
   background-color: white;
 }
-.background{
-  width:100%;
-  font-family:sans-serif;
+
+.background {
+  width: 100%;
+  font-family: sans-serif;
 }
-.info{
+
+.info {
   width: 70%;
-  font-family:monospace;
+  font-family: monospace;
   background-color: #f3f4f7;
   border-radius: 30px 30px;
   border: 3px solid black;
 }
-td{
+
+td {
   text-align: center;
 }
-.modifyStore{
+
+.modifyStore {
   color: white;
   background-color: orange;
   margin-bottom: 20px;
 }
-.modifyStore_wrapper{
+
+.modifyStore_wrapper {
   background-color: rgba(255, 53, 69);
   border-radius: 50px 50px;
 }
-.a{
+
+.a {
   /* margin-bottom: 50px; */
   font-weight: bold;
 }
-.menuvalue{
+
+.menuvalue {
   margin-left: 100px;
   margin-right: 100px;
   font-size: 20px;
 }
-.manageTable{
- width:"80%";
-    margin: "40%";
+
+.manageTable {
+  width: "80%";
+  margin: "40%";
 }
-@media (max-width:570px){
-  .first{
+
+@media (max-width:570px) {
+  .first {
     border: 1px solid;
     background-color: white;
     padding: 0px;
     margin: 0px;
     margin-top: 20px;
   }
-  .a{
+
+  .a {
     font-weight: bold;
   }
-  .menuvalue{
+
+  .menuvalue {
     margin-left: 1px;
     margin-right: 1px;
   }
-  .info{
+
+  .info {
     width: 90%;
-    font-family:monospace;
+    font-family: monospace;
     background-color: #f3f4f7;
     border-radius: 30px 30px;
     border: 1px solid black;
   }
- #modifyStore{
-   width: 50%;
-   margin-bottom: 5px;
- }
- #span{
-   font-size: 3px;
- }
- #button{
-   width: auto;
- }
- .manageTable{
-  width:"80%";
-     margin: "40%";
- }
+
+  #modifyStore {
+    width: 50%;
+    margin-bottom: 5px;
+  }
+
+  #span {
+    font-size: 3px;
+  }
+
+  #button {
+    width: auto;
+  }
+
+  .manageTable {
+    width: "80%";
+    margin: "40%";
+  }
 }
-#span{
+
+#span {
   margin-top: 7px;
   font-size: 30px;
 }

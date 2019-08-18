@@ -2,14 +2,15 @@
     width: auto;
 }
 
-.listTable{
-    width:auto;
+.listTable {
+    width: auto;
     color: red;
 }
-@media (max-width:600px){
-    .listTable{
-        padding:0;
-        width:80%;
+
+@media (max-width:600px) {
+    .listTable {
+        padding: 0;
+        width: 80%;
         color: black;
         font-size: 5px;
         display: none !important;

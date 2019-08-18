@@ -1,78 +1,83 @@
 .SigninForm {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 600px;
+  height: 500px;
+  border: 3px solid skyblue;
+  border-radius: 10px;
+}
+
+.ownerSignUpButton {
+  text-align: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  align-items: center;
+  width: 70%;
+
+}
+
+.form {
+  width: 70%;
+}
+
+.icon {
+  display: block;
+  position: absolute;
+  left: 0;
+  color: white;
+  height: auto;
+  top: 0;
+  margin-left: -20px;
+}
+
+.icon img {
+  width: 100px;
+  height: 100px;
+}
+
+.successLogInDiv {
+  /* position: relative; */
+  margin-top: 20%;
+  border: 2px solid skyblue;
+  border-radius: 5px;
+  width: 500px;
+  height: 200px;
+  display: table;
+
+}
+
+.LogoIcon {
+  margin-left: 20px;
+}
+
+.innerSuccessLogInDiv {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+@media(max-width:500px) {
+  .SigninForm {
     margin-top: 50px;
     margin-bottom: 50px;
-    width: 600px;
+    width: 300px;
     height: 500px;
     border: 3px solid skyblue;
     border-radius: 10px;
   }
-  .ownerSignUpButton {
-    text-align: center;
-    justify-content: center;
-    color: white;
-    text-decoration: none;
-    align-items: center;
-    width: 70%;
-  
-  }
-  
-  .form {
-    width: 70%;
-  }
-  
-  .icon{
-      display: block;
-      position: absolute;
-      left: 0;
-      color : white;
-      height: auto;
-      top: 0;
-      margin-left: -20px;
-  }
-  
-  .icon img {
-    width : 100px;
-    height : 100px;
-  }
-  
+
   .successLogInDiv {
-    /* position: relative; */
-    margin-top: 20%;
-    border: 2px solid skyblue;
+    margin-left: 10%;
+    margin-top: 30%;
+    border: 2px solid #60A186;
     border-radius: 5px;
-    width: 500px;
+    width: 360px;
     height: 200px;
     display: table;
-  
   }
-  .LogoIcon {
-    margin-left: 20px;
-  }
+
   .innerSuccessLogInDiv {
     display: table-cell;
     vertical-align: middle;
   }
-  
-  @media(max-width:500px){
-    .SigninForm {
-      margin-top: 50px;
-      margin-bottom: 50px;
-      width: 300px;
-      height: 500px;
-      border: 3px solid skyblue;
-      border-radius: 10px;
-    }
-    .successLogInDiv {
-      margin-left: 10%;
-      margin-top: 30%;
-      border: 2px solid #60A186;
-      border-radius: 5px;
-      width: 360px;
-      height: 200px;
-      display: table;
-    }
-    .innerSuccessLogInDiv {
-      display: table-cell;
-      vertical-align: middle;
-    }
-  }
+}
