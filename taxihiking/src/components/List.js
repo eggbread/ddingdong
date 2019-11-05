@@ -4,7 +4,7 @@ import axios from "axios";
 import Loader from "react-loader";
 import {Navbar,Nav,} from "react-bootstrap";
 import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
-import "./List.css";
+import "../asset/css/List.css";
 
 class List extends Component {
   constructor(props) {

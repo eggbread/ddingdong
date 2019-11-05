@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import { BrowserRouter as withRouter, Link } from "react-router-dom";
-import "./Footer.css";
+import "../asset/css/Footer.css";
 
 class Footer extends Component {
   render() {

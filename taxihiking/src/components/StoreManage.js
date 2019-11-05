@@ -8,7 +8,7 @@ import io from "socket.io-client";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
 import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
 
-import "./StoreManage.css";
+import "../asset/css/StoreManage.css";
 
 var clickObj;
 var location;

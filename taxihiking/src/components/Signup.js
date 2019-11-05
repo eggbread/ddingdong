@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./Signup.css";
+import "../asset/css/Signup.css";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
 
 class Signup extends Component {

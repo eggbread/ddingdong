@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import { Container, Row, Col } from "react-grid-system";
 import axios from "axios";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
-import "./Order.css";
+import "../asset/css/Order.css";
 
 class Order extends Component {
   constructor(props) {

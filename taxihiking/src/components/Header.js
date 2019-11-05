@@ -4,7 +4,7 @@ import $ from "jquery";
 import { BrowserRouter as withRouter, Link } from "react-router-dom";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { Button, Image } from "react-bootstrap";
-import "./Header.css";
+import "../asset/css/Header.css";
 
 class Header extends Component {
   constructor(props) {
@@ -16,6 +16,7 @@ class Header extends Component {
   }
 
   findLocation(des) {
+    alert("Hi")
     var geocode =
       "https://maps.googleapis.com/maps/api/geocode/json?address=" +
       des +

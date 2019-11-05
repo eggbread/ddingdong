@@ -34,6 +34,7 @@ app.all("/*", function(req, res, next) {
 
 router.route(
   app.post("/", (req, res) => {
+    console.log("Mobile Login")
     var isLogin;
     try {
       var userdata = jwt.verify(req.body.token, "ddingdong");
@@ -323,7 +324,7 @@ router.route(
           }
         }
       }
-      res.redirect("http://ddingdong.gq/storemanage");
+      res.redirect("http://localhost:3000/storemanage");
     }
   )
 );

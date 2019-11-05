@@ -4,7 +4,7 @@ import axios from "axios";
 import { HorizontalBar } from "react-chartjs-2";
 import Loader from "react-loader";
 import { Button } from "react-bootstrap";
-import "./Menu.css";
+import "../asset/css/Menu.css";
 import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
 
 class Menu extends Component {

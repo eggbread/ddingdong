@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as withRouter, Link } from "react-router-dom";
-import "./Category.css";
+import "../asset/css/Category.css";
 
 class Category extends Component {
   render() {
