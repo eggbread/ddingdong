@@ -67,7 +67,7 @@
     "react-bootstrap": "^1.0.0-beta.10",
     "react-chartjs-2": "^2.7.6",
     "react-daum-postcode": "^1.8.3",
-    "react-dev-utils": "^9.0.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.8.6",
     "react-dropdown-select": "^3.3.2",
     "react-geocode": "^0.1.2",
